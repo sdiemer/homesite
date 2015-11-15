@@ -67,14 +67,13 @@ def munin_cgi(request, path):
         logger.error(msg)
         return HttpResponse(msg, content_type='text/plain')
     # Remove header
-    if 'PNG' in out:
-        index = out.index('PNG')
-        lines = out[:index].count('\n')
-        out = '\n'.join(out.split('\n')[lines:])
+    if b'PNG' in out:
+        index = out.index(b'PNG')
+        lines = out[:index].count(b'\n')
+        out = b'\n'.join(out.split(b'\n')[lines:])
         return HttpResponse(out, content_type='image/png')
     elif 'Status: 404 Not Found':
         raise Http404()
-        print(out)
     else:
         msg = 'Munin CGI script returned an handled response.'
         logger.error(msg + '\n' + out[:200])
