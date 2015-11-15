@@ -12,4 +12,4 @@ Dependencies:
 * munin-node
 * libcgi-fast-perl
 * uwsgi
-* uwsgi-plugin-python
+* uwsgi-plugin-python3

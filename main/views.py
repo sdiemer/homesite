@@ -56,6 +56,8 @@ def ark(request):
         ps_out += str(err, 'utf-8')
     if not ps_out:
         ps_out = _('Server is not running.')
+    else:
+        ps_out = '>>> ' + cmd + '\n' + ps_out
     tplt_args['ps_out'] = ps_out
 
     # Get log content

@@ -16,13 +16,13 @@
 		<div>{{ cmd_err|linebreaksbr }}</div>
 	{% endif %}
 
-	<h2>{% trans "ARK server status" %}</h2>
+	<h2>{% trans "Server status" %}</h2>
 	<form method="post" action=".">{% csrf_token %}
 		<button type="submit">{% trans 'Restart server' %}</button>
 	</form>
-	<div>{{ ps_out|linebreaksbr }}</div>
+	<p style="word-wrap: break-word;">{{ ps_out|linebreaksbr }}</p>
 
-	<h2>{% trans "ARK server log" %}</h2>
+	<h2>{% trans "Server log" %}</h2>
 	<button type="button" onclick="javascript: location.reload();">{% trans 'Reload' %}</button>
 	<pre>{{ log }}</pre>
 {% endblock %}

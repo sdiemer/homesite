@@ -1,7 +1,7 @@
 {% load i18n %}{% load staticfiles %}<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANG }}">
 <head>
-	<title>Homesite</title>
+	<title>Homesite - {% block wtitle %}{% endblock %}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
@@ -15,11 +15,6 @@
 	<script type="text/javascript" src="{% static 'js/utils.js' %}?_=1"></script>
 	<script type="text/javascript" src="{% static 'odm/odm.js' %}?_=1"></script>
 
-	<script type="text/javascript">
-		$(function() {
-			$("head > title").html($("main > h1").text());
-		});
-	</script>
 	{% block head %}{% endblock %}
 </head>
 

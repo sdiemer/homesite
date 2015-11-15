@@ -4,9 +4,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/table.css' %}?_=1"/>
 
 	<script type="text/javascript" src="{% static 'js/clock.js' %}?_=1"></script>
-	<script type="text/javascript">
-		var clock = new Clock();
-	</script>
+	<script type="text/javascript"> var clock = new Clock(); </script>
 
 	{% block scripts %}{% endblock %}
 {% endblock %}
@@ -14,7 +12,6 @@
 {% block body %}
 	<header>
 		<div><i class="fa fa-home"></i> Homesite</div>
-		<h1>{% block wtitle %}{% block title %}{% endblock %}{% endblock %}</h1>
 	</header>
 
 	<aside>
@@ -25,7 +22,7 @@
 					<span>{% trans 'Logout' %}</span>
 				</a>
 			{% else %}
-				<a href="{% url 'login' %}">
+				<a class="login" href="{% url 'login' %}">
 					<span>{% trans 'Login' %}</span>
 				</a>
 			{% endif %}
@@ -69,6 +66,8 @@
 				<div class="message-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">{{ message|linebreaksbr }}</div>
 			{% endfor %}
 		{% endif %}
+
+		<h1>{% block wtitle %}{% block title %}{% endblock %}{% endblock %}</h1>
 
 		{% block main %}{% endblock %}
 	</main>

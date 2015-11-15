@@ -34,13 +34,13 @@ body > footer {
 }
 body > header {
 	bottom: auto;
-	height: 100px;
-	line-height: 50px;
+	height: 80px;
+	line-height: 80px;
 	background: #000;
 	font-size: 200%;
 }
 body > aside {
-	top: 100px;
+	top: 80px;
 	bottom: 50px;
 	text-align: left;
 	overflow: auto;
@@ -52,10 +52,7 @@ body > footer {
 	background: #000;
 }
 
-body > header h1 {
-	margin: 0;
-	font-size: inherit;
-	font-style: italic;
+body > header {
 	color: #adf;
 }
 
@@ -90,4 +87,9 @@ main {
 	right: 0;
 	position: absolute;
 	overflow: auto;
+}
+
+main > h1 {
+	margin: 0;
+	margin-bottom: 10px;
 }

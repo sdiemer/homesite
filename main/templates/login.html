@@ -4,14 +4,17 @@
 
 {% block scripts %}
 	<script type="text/javascript">
-		$(document).ready(function () { $("#id_username").focus(); });
+		$(document).ready(function () {
+			$("#id_username").focus();
+			$(".login").addClass("active");
+		});
 	</script>
 {% endblock %}
 
 {% block main %}
 	<p>{% trans "You must be identified to access the page you tried." %}</p>
 	<form method="post" action=".">{% csrf_token %}
-		{{ form }}
+		{{ form.as_p }}
 		<button type="submit">{% trans 'Submit' %}</button>
 	</form>
 {% endblock %}
