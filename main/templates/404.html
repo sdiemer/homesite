@@ -1,0 +1,8 @@
+{% extends "common.html" %}{% load i18n %}{% load staticfiles %}
+
+{% block title %}404, {% trans 'Page not found' %}{% endblock %}
+
+{% block main %}
+	<p class="container alert alert-danger">{% trans 'The page you tried to get does not exist.' %}</p>
+	<p><a class="button button-blue" href="/">← {% trans 'Return to home page' %}</a></p>
+{% endblock %}

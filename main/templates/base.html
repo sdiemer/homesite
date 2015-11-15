@@ -1,0 +1,29 @@
+{% load i18n %}{% load staticfiles %}<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANG }}">
+<head>
+	<title>Homesite</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+	<link rel="shortcut icon" href="{% static 'img/favicon.png' %}?_=1"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'fa/font-awesome.min.css' %}?_=1"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'odm/odm.css' %}?_=1"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'jquery/jquery.datetimepicker.css' %}?_=1"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}?_=1"/>
+
+	<script type="text/javascript" src="{% static 'jquery/jquery-latest.min.js' %}?_=1"></script>
+	<script type="text/javascript" src="{% static 'js/utils.js' %}?_=1"></script>
+	<script type="text/javascript" src="{% static 'odm/odm.js' %}?_=1"></script>
+
+	<script type="text/javascript">
+		$(function() {
+			$("head > title").html($("main > h1").text());
+		});
+	</script>
+	{% block head %}{% endblock %}
+</head>
+
+<body>
+	{% block body %}{% endblock %}
+</body>
+</html>

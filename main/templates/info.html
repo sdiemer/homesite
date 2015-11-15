@@ -1,0 +1,7 @@
+{% extends "common.html" %}{% load i18n %}{% load staticfiles %}
+
+{% block title %}{% trans "Server info" %}{% endblock %}
+
+{% block main %}
+	{% include 'monitoring/sysinfo.html' %}
+{% endblock %}

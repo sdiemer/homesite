@@ -1,0 +1,9 @@
+{% extends "common.html" %}{% load i18n %}{% load staticfiles %}
+
+{% block title %}500, {% trans 'Unhandled Exception' %}{% endblock %}
+
+{% block main %}
+	<p class="alert alert-danger">{% trans "An unhandled exception was thrown by the application." %}</p>
+	<p class="alert alert-warning">{% trans "An email has been sent to the site's administrators." %}</p>
+	<p><a class="button button-blue" href="/">← {% trans 'Return to home page' %}</a></p>
+{% endblock %}

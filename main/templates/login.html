@@ -1,0 +1,17 @@
+{% extends "common.html" %}{% load i18n %}{% load staticfiles %}
+
+{% block title %}{% trans "Authentication" %}{% endblock %}
+
+{% block scripts %}
+	<script type="text/javascript">
+		$(document).ready(function () { $("#id_username").focus(); });
+	</script>
+{% endblock %}
+
+{% block main %}
+	<p>{% trans "You must be identified to access the page you tried." %}</p>
+	<form method="post" action=".">{% csrf_token %}
+		{{ form }}
+		<button type="submit">{% trans 'Submit' %}</button>
+	</form>
+{% endblock %}

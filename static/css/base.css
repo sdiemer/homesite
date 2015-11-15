@@ -1,0 +1,93 @@
+@font-face {
+    font-family: "Audimat";
+    src: url("font_audimat.ttf") format("truetype");
+}
+
+html {
+	font-size: 16px;
+	font-family: Audimat;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
+}
+
+body > header,
+body > aside,
+body > footer {
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: auto;
+	position: absolute;
+	width: 250px;
+	background: #444;
+	color: #fff;
+	text-align: center;
+}
+body > header {
+	bottom: auto;
+	height: 100px;
+	line-height: 50px;
+	background: #000;
+	font-size: 200%;
+}
+body > aside {
+	top: 100px;
+	bottom: 50px;
+	text-align: left;
+	overflow: auto;
+}
+body > footer {
+	top: auto;
+	height: 50px;
+	line-height: 25px;
+	background: #000;
+}
+
+body > header h1 {
+	margin: 0;
+	font-size: inherit;
+	font-style: italic;
+	color: #adf;
+}
+
+aside a {
+	margin: 10px 0;
+	padding: 10px;
+	display: block;
+	color: #ccc;
+	text-decoration: none;
+}
+aside a:hover {
+	color: #fff;
+	background-color: #000;
+}
+aside a.active {
+	color: #adf;
+	background-color: #000;
+}
+
+aside .account span {
+	display: block;
+}
+aside .logout span:last-child {
+	text-align: right;
+}
+
+main {
+	padding: 10px;
+	top: 0;
+	bottom: 0;
+	left: 250px;
+	right: 0;
+	position: absolute;
+	overflow: auto;
+}

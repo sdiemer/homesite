@@ -1,0 +1,104 @@
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+table td,
+table th {
+    padding: 4px 6px;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+}
+table td:first-child,
+table th:first-child {
+    border-left: 0 none;
+}
+table td:last-child,
+table th:last-child {
+    border-right: 0 none;
+}
+table td {
+    border-color: transparent;
+}
+.title-block,
+table th {
+    padding: 4px 6px;
+    text-align: left;
+    font-weight: bold;
+    color: #222;
+    background: #ddd;
+    background: -moz-linear-gradient(top, #eee, #ccc);
+    background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#ccc));
+}
+table th.header {
+    cursor: pointer;
+}
+table th.header > span,
+table th.headerSortDown > span,
+table th.headerSortUp > span {
+    padding-left: 20px;
+    padding-right: 4px;
+    background: transparent none 2px 50% no-repeat;
+    display: block;
+}
+table th.header > span {
+    background-image: url("../images/icons/table/sort.png");
+}
+table th.header:hover {
+    background: -moz-linear-gradient(top, #fff, #ddd);
+    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+}
+table th.headerSortDown > span {
+    background-image: url("../images/icons/table/sort_down.png");
+}
+table th.headerSortUp > span {
+    background-image: url("../images/icons/table/sort_up.png");
+}
+table tr.even > td,
+table.even-odd tbody tr:nth-child(even) > td,
+table.even-odd-2 tbody tr:nth-child(4n) > td,
+table.even-odd-2 tbody tr:nth-child(4n-1) > td {
+    background: rgba(220, 220, 220, 0.5);
+}
+table tr.odd > td,
+table.even-odd tbody tr:nth-child(odd) > td,
+table.even-odd-2 tbody tr:nth-child(4n-2) > td,
+table.even-odd-2 tbody tr:nth-child(4n-3) > td {
+    background: rgba(190, 190, 190, 0.5);
+}
+table tr.even.marked > td,
+table.even-odd tbody tr.marked:nth-child(even) > td,
+table.even-odd-2 tbody tr.marked:nth-child(4n) > td,
+table.even-odd-2 tbody tr.marked:nth-child(4n-1) > td {
+    background: rgba(255, 255, 200, 0.5);
+}
+table tr.odd.marked > td,
+table.even-odd tbody tr.marked:nth-child(odd) > td,
+table.even-odd-2 tbody tr.marked:nth-child(4n-2) > td,
+table.even-odd-2 tbody tr.marked:nth-child(4n-3) > td {
+    background: rgba(255, 255, 140, 0.5);
+}
+table tr.even.selected > td,
+table.even-odd tbody tr.selected:nth-child(even) > td,
+table.even-odd-2 tbody tr.selected:nth-child(4n) > td,
+table.even-odd-2 tbody tr.selected:nth-child(4n-1) > td {
+    background: rgba(205, 255, 205, 0.5);
+}
+table tr.odd.selected > td,
+table.even-odd tbody tr.selected:nth-child(odd) > td,
+table.even-odd-2 tbody tr.selected:nth-child(4n-2) > td,
+table.even-odd-2 tbody tr.selected:nth-child(4n-3) > td {
+    background: rgba(190, 255, 190, 0.5);
+}
+table.even-odd tbody tr:hover > td,
+table.even-odd tbody tr:hover.marked > td,
+table.even-odd tbody tr:hover.selected > td {
+    background: rgba(170, 190, 240, 0.5);
+}
+table td.inner-table {
+    padding: 0;
+}
+
+table td.inner-table th {
+    border-left: none;
+}

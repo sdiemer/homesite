@@ -1,0 +1,28 @@
+{% extends "common.html" %}{% load i18n %}{% load staticfiles %}
+
+{% block title %}{% trans "ARK server" %}{% endblock %}
+
+{% block main %}
+	{% if cmd_requested %}
+		{% if cmd_success %}
+			<h2>{% trans "Command successfully executed." %}</h2>
+		{% else %}
+			<h2>{% trans "Command failed." %}</h2>
+		{% endif %}
+		<div>{% trans "Stdout:" %}</div>
+		<div>{{ cmd_out|linebreaksbr }}</div>
+		<br/>
+		<div>{% trans "Stderr:" %}</div>
+		<div>{{ cmd_err|linebreaksbr }}</div>
+	{% endif %}
+
+	<h2>{% trans "ARK server status" %}</h2>
+	<form method="post" action=".">{% csrf_token %}
+		<button type="submit">{% trans 'Restart server' %}</button>
+	</form>
+	<div>{{ ps_out|linebreaksbr }}</div>
+
+	<h2>{% trans "ARK server log" %}</h2>
+	<button type="button" onclick="javascript: location.reload();">{% trans 'Reload' %}</button>
+	<pre>{{ log }}</pre>
+{% endblock %}

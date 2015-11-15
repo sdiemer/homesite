@@ -1,0 +1,80 @@
+{% extends "base.html" %}{% load i18n %}{% load staticfiles %}
+
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/table.css' %}?_=1"/>
+
+	<script type="text/javascript" src="{% static 'js/clock.js' %}?_=1"></script>
+	<script type="text/javascript">
+		var clock = new Clock();
+	</script>
+
+	{% block scripts %}{% endblock %}
+{% endblock %}
+
+{% block body %}
+	<header>
+		<div><i class="fa fa-home"></i> Homesite</div>
+		<h1>{% block wtitle %}{% block title %}{% endblock %}{% endblock %}</h1>
+	</header>
+
+	<aside>
+		<div class="account">
+			{% if user.is_authenticated %}
+				<a class="logout" href="{% url 'logout' %}">
+					<span>{% trans 'Logged as' %} {{ user.username }}</span>
+					<span>{% trans 'Logout' %}</span>
+				</a>
+			{% else %}
+				<a href="{% url 'login' %}">
+					<span>{% trans 'Login' %}</span>
+				</a>
+			{% endif %}
+		</div>
+		{% if user.is_authenticated %}
+			<div class="menu">
+				<a href="{% url 'ark' %}" {% if section == "ark" %}class="active"{% endif %}>
+					<i class="fa fa-gamepad"></i>
+					{% trans "ARK server" %}
+				</a>
+				<a href="{% url 'info' %}" {% if section == "info" %}class="active"{% endif %}>
+					<i class="fa fa-info-circle"></i>
+					{% trans "Server info" %}
+				</a>
+				<a href="/storage/public-ui/">
+					<i class="fa fa-file"></i>
+					{% trans "Public hosting" %}
+				</a>
+				<a href="/storage/private-ui/">
+					<i class="fa fa-file"></i>
+					{% trans "Private hosting" %}
+				</a>
+				<a href="{% url 'munin' %}" {% if section == "munin" %}class="active"{% endif %}>
+					<i class="fa fa-bar-chart"></i>
+					{% trans "Munin" %}
+				</a>
+				{% if user.is_staff %}
+					<a href="/django/">
+						<i class="fa fa-cogs"></i>
+						{% trans "Django administration" %}
+					</a>
+				{% endif %}
+			</div>
+		{% endif %}
+	</aside>
+	
+	<main>
+		{% if messages %}
+			<!-- django message block -->
+			{% for message in messages %}
+				<div class="message-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">{{ message|linebreaksbr }}</div>
+			{% endfor %}
+		{% endif %}
+
+		{% block main %}{% endblock %}
+	</main>
+
+	<footer>
+		<div id="hour_place"></div>
+		<div id="date_place"></div>
+	</footer>
+{% endblock %}
