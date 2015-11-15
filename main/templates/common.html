@@ -37,14 +37,16 @@
 					<i class="fa fa-info-circle"></i>
 					{% trans "Server info" %}
 				</a>
-				<a href="/storage/public-ui/">
-					<i class="fa fa-file"></i>
-					{% trans "Public hosting" %}
-				</a>
-				<a href="/storage/private-ui/">
-					<i class="fa fa-file"></i>
-					{% trans "Private hosting" %}
-				</a>
+				{% if user.is_staff %}
+					<a href="/storage/public-ui/">
+						<i class="fa fa-file"></i>
+						{% trans "Public hosting" %}
+					</a>
+					<a href="/storage/private-ui/">
+						<i class="fa fa-file"></i>
+						{% trans "Private hosting" %}
+					</a>
+				{% endif %}
 				<a href="{% url 'munin' %}" {% if section == "munin" %}class="active"{% endif %}>
 					<i class="fa fa-bar-chart"></i>
 					{% trans "Munin" %}
