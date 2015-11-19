@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+import imp
 import os
 import sys
 
 BASE_DIR = os.path.dirname(__file__)
+if os.path.dirname(BASE_DIR) not in sys.path:
+    sys.path.append(os.path.dirname(BASE_DIR))
 
 DEBUG = False
 DEBUG_TOOLBAR = False
@@ -198,26 +201,22 @@ MUNIN_BASE = 'localdomain/localhost.localdomain/index.html'
 MUNIN_SCRIPTS_DIR = '/usr/lib/munin/cgi'
 
 # Email config
+SERVER_EMAIL = 'server@host.com'  # Used as sender for error emails
+DEFAULT_FROM_EMAIL = 'server@host.com'   # Used as sender for other emails
 EMAIL_USE_TLS = False
 EMAIL_HOST = 'localhost'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 25
-SERVER_EMAIL = 'server@host.com'  # Used as sender for error emails
-DEFAULT_FROM_EMAIL = 'server@host.com'   # Used as sender for other emails
-# Email list (for new contact and new reseller profiles)
-EMAIL_LIST = []
 
 # Import instance settings
 # -------------------------------------------------------------------------------
-if os.path.dirname(BASE_DIR) not in sys.path:
-    sys.path.append(os.path.dirname(BASE_DIR))
-try:
-    from settings_override import *
-except Exception as e:
-    if 'No module named \'settings_override\'' not in str(e):
-        import traceback
-        traceback.print_exc()
+override_path = os.path.join(BASE_DIR, 'settings_override.py')
+if os.path.exists(override_path):
+    override = imp.load_source('settings_override', override_path)
+    for key in dir(override):
+        if not key.startswith('_'):
+            globals()[key] = getattr(override, key)
 
 # Apply changes depending on instance config
 # -------------------------------------------------------------------------------
