@@ -48,7 +48,7 @@ if __name__ == '__main__':
     user_id = sys.argv[1] if len(sys.argv) > 1 else '?'
     _log('Started on %s by user %s.\n' % (now.strftime('%Y-%m-%d %H:%M:%S'), user_id))
     _log('---- Stopping server ----')
-    _exec('pkill', 'ShooterGameServer')
+    _exec('pkill', '-f', '--', 'ShooterGameServer')
     time.sleep(2)
     _log('---- Backuping saves ----')
     rc = _exec('/bin/bash', ARK_DUMP_PATH)
