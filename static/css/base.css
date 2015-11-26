@@ -4,11 +4,13 @@
 }
 
 html {
+	margin: 0;
 	font-size: 16px;
 	font-family: Audimat;
 }
 
 body {
+	margin: 0;
 	margin-left: 250px;
 	overflow: auto;
 }
