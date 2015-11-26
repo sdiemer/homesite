@@ -1,4 +1,22 @@
 #!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          homesite
+# Required-Start:    $local_fs $network
+# Required-Stop:     $local_fs $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the homesite web platform
+# Description:       starts homesite using uwsgi
+### END INIT INFO
+
+# This script should be located in /etc/init.d/homesite
+#   ln -s uwsgi.sh /etc/init.d/homesite
+# To make this script start at boot:
+#   update-rc.d homesite defaults 96 00
+# To remove it use:
+#   update-rc.d -f homesite remove
+
 PROJ_NAME="homesite"
 PROJ_USER="homesite"
 PROJ_DIR="/home/$PROJ_USER/homesite"
@@ -46,3 +64,6 @@ if [[ $1 = "start" || $1 = "restart" ]]; then
         echo -e "    \033[91m[ FAILED ]\033[0m"
     fi
 fi
+
+cd - > /dev/null
+exit 0

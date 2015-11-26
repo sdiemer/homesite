@@ -12,7 +12,7 @@ DEBUG = False
 DEBUG_TOOLBAR = False
 
 ADMINS = (
-    ('Stéphane Diemer', 'stephane.diemer@ubicast.eu'),
+    ('Admin', 'admin@server'),
 )
 MANAGERS = ADMINS
 

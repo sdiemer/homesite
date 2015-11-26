@@ -33,6 +33,7 @@ hosting-public
 static/admin
 static/debug_toolbar
 static/file_browser
+static/monitoring
 settings_override.py
 uwsgi.log
 uwsgi.pid
