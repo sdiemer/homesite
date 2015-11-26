@@ -12,7 +12,7 @@ DEBUG = False
 DEBUG_TOOLBAR = False
 
 ADMINS = (
-    ('Admin', 'admin@server'),
+    ('Admin', 'admin@server.com'),
 )
 MANAGERS = ADMINS
 
