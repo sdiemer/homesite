@@ -8,15 +8,9 @@ html {
 	font-family: Audimat;
 }
 
-html,
 body {
-	margin: 0;
-	padding: 0;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	position: absolute;
+	margin-left: 250px;
+	overflow: auto;
 }
 
 body > header,
@@ -26,7 +20,7 @@ body > footer {
 	bottom: 0;
 	left: 0;
 	right: auto;
-	position: absolute;
+	position: fixed;
 	width: 250px;
 	background: #444;
 	color: #fff;
@@ -81,12 +75,6 @@ aside .logout span:last-child {
 
 main {
 	padding: 10px;
-	top: 0;
-	bottom: 0;
-	left: 250px;
-	right: 0;
-	position: absolute;
-	overflow: auto;
 }
 
 main > h1 {
