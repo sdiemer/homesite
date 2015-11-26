@@ -69,12 +69,16 @@ if __name__ == '__main__':
     _log('\n---- Backuping saves ----\n')
     rc = _exec('/bin/bash', ARK_DUMP_PATH)
     if rc != 0:
-        print('Command failed.', file=sys.stdout)
+        _log('Command failed.')
         sys.exit(1)
+    else:
+        _log('Backup done.')
     _log('\n---- Update server ----\n')
     rc = _exec('/bin/bash', ARK_UPDATE_PATH)
     if rc != 0:
-        print('Command failed.', file=sys.stdout)
+        _log('Command failed.')
         sys.exit(1)
+    else:
+        _log('Update done.')
     _log('\n---- Starting server ----\n')
     os.execl('/bin/bash', 'bash', ARK_START_PATH)

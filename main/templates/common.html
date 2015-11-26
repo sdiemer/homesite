@@ -11,14 +11,14 @@
 
 {% block body %}
 	<main>
+		<h1>{% block wtitle %}{% block title %}{% endblock %}{% endblock %}</h1>
+
 		{% if messages %}
 			<!-- django message block -->
 			{% for message in messages %}
 				<div class="message-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">{{ message|linebreaksbr }}</div>
 			{% endfor %}
 		{% endif %}
-
-		<h1>{% block wtitle %}{% block title %}{% endblock %}{% endblock %}</h1>
 
 		{% block main %}{% endblock %}
 	</main>

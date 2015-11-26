@@ -11,20 +11,8 @@
 {% endblock %}
 
 {% block main %}
-	{% if cmd_requested %}
-		{% if cmd_success %}
-			<h2>{% trans "Command successfully executed." %}</h2>
-		{% else %}
-			<h2>{% trans "Command failed." %}</h2>
-		{% endif %}
-		<div>{% trans "Stdout:" %}</div>
-		<div>{{ cmd_out|linebreaksbr }}</div>
-		<br/>
-		<div>{% trans "Stderr:" %}</div>
-		<div>{{ cmd_err|linebreaksbr }}</div>
-	{% endif %}
-
 	<h2>{% trans "Server status" %}</h2>
+
 	<div>
 		<form method="post" action="." style="display: inline;">{% csrf_token %}
 			<input type="hidden" name="action" value="restart"/>
@@ -39,7 +27,7 @@
 
 	<h2>{% trans "Server log" %}</h2>
 	<div>
-		<button type="button" onclick="javascript: location.reload();">{% trans 'Reload' %}</button>
+		<button type="button" onclick="javascript: location.reload();">{% trans 'Refresh' %}</button>
 	</div>
 	<p class="output">{{ log|linebreaksbr }}</p>
 {% endblock %}
