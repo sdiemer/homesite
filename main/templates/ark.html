@@ -17,12 +17,21 @@
 	{% endif %}
 
 	<h2>{% trans "Server status" %}</h2>
-	<form method="post" action=".">{% csrf_token %}
-		<button type="submit">{% trans 'Restart server' %}</button>
-	</form>
+	<div>
+		<form method="post" action="." style="display: inline;">{% csrf_token %}
+			<input type="hidden" name="action" value="restart"/>
+			<button type="submit">{% trans 'Restart server' %}</button>
+		</form>
+		<form method="post" action="." style="display: inline;">{% csrf_token %}
+			<input type="hidden" name="action" value="stop"/>
+			<button type="submit">{% trans 'Stop server' %}</button>
+		</form>
+	</div>
 	<p style="word-wrap: break-word;">{{ ps_out|linebreaksbr }}</p>
 
 	<h2>{% trans "Server log" %}</h2>
-	<button type="button" onclick="javascript: location.reload();">{% trans 'Reload' %}</button>
+	<div>
+		<button type="button" onclick="javascript: location.reload();">{% trans 'Reload' %}</button>
+	</div>
 	<pre>{{ log }}</pre>
 {% endblock %}

@@ -34,12 +34,13 @@ def ark(request):
     tplt_args = dict()
 
     if request.method == 'POST':
-        cmd = ['python3', os.path.join(homesite.__path__[0], 'scripts', 'ark_server.py'), request.user.username]
+        action = 'restart' if request.POST.get('action') == 'restart' else 'stop'
+        cmd = ['python3', os.path.join(homesite.__path__[0], 'scripts', 'ark_server.py'), action, request.user.username]
         p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
         out, err = p.communicate()
-        out = str(out, 'utf-8') if out else 'No stdout.'
-        err = str(err, 'utf-8') if err else 'No stderr.'
-        msg_pattern = '%%s\nStdout:\n%s\nStderr:\n%s' % (out.strip(), err.strip())
+        out = str(out, 'utf-8').strip() if out else 'No stdout.'
+        err = str(err, 'utf-8').strip() if err else 'No stderr.'
+        msg_pattern = '%%s\nStdout:\n%s\nStderr:\n%s' % (out, err)
         if p.returncode == 0:
             messages.success(request, msg_pattern % _('Command successfully executed.'))
         else:
@@ -52,8 +53,7 @@ def ark(request):
     out, err = p.communicate()
     ps_out = str(out, 'utf-8') if out else ''
     if err:
-        ps_out += '\n'
-        ps_out += str(err, 'utf-8')
+        ps_out += '\n' + str(err, 'utf-8')
     if not ps_out:
         ps_out = _('Server is not running.')
     else:
