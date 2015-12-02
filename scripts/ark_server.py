@@ -81,4 +81,4 @@ if __name__ == '__main__':
     else:
         _log('Update done.')
     _log('\n---- Starting server ----\n')
-    os.execl('/bin/bash', 'bash', ARK_START_PATH)
+    _exec('/bin/bash', ARK_START_PATH)
