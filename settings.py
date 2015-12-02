@@ -191,8 +191,8 @@ if not os.path.exists(FB_PRIVATE_ROOT):
     os.makedirs(FB_PRIVATE_ROOT)
 FILE_BROWSER_BASE_TEMPLATE = 'storage.html'
 FILE_BROWSER_DIRS = {
-    'fb-public': (FB_PUBLIC_ROOT, '/downloads/public/'),
-    'fb-private': (FB_PRIVATE_ROOT, '/downloads/private/'),
+    'fb-public': (FB_PUBLIC_ROOT, '/storage/public/'),
+    'fb-private': (FB_PRIVATE_ROOT, '/storage/private/'),
 }
 
 # Munin
