@@ -4,7 +4,7 @@ import imp
 import os
 import sys
 
-BASE_DIR = os.path.dirname(__file__)
+BASE_DIR = os.path.dirname(os.path.abspath(os.path.expanduser(__file__)))
 if os.path.dirname(BASE_DIR) not in sys.path:
     sys.path.append(os.path.dirname(BASE_DIR))
 
