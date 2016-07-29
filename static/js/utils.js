@@ -1,18 +1,22 @@
 /*******************************************
 * Utilities functions                      *
-* Copyright: UbiCast, all rights reserved  *
 * Author: Stephane Diemer                  *
 *******************************************/
+/* globals SparkMD5 */
 
-// add console log function for old browsers
+// add console functions for old browsers
 if (!window.console)
     window.console = {};
 if (!window.console.log)
-    window.console.log = function () {
-        //for (var i=0; i < arguments.length; i++) {
-        //    $("body").append("<p>Argument-" + i + ": " + arguments[i] + "</p>");
-        //}
-    };
+    window.console.log = function () {};
+if (!window.console.error)
+    window.console.error = window.console.log;
+if (!window.console.debug)
+    window.console.debug = window.console.log;
+if (!window.console.info)
+    window.console.info = window.console.log;
+if (!window.console.warn)
+    window.console.warn = window.console.log;
 
 
 var utils = {};
@@ -26,7 +30,7 @@ utils.get_cookie = function (c_name, c_default) {
             var c_end = document.cookie.indexOf(";", c_start);
             if (c_end == -1)
                 c_end = document.cookie.length;
-            return unescape(document.cookie.substring(c_start, c_end));
+            return window.unescape(document.cookie.substring(c_start, c_end));
         }
     }
     return c_default !== undefined ? c_default : "";
@@ -34,7 +38,7 @@ utils.get_cookie = function (c_name, c_default) {
 utils.set_cookie = function (c_name, value, expiredays) {
     var exdate = new Date();
     exdate.setDate(exdate.getDate() + (expiredays ? expiredays : 360));
-    document.cookie = c_name+"="+escape(value)+"; expires="+exdate.toUTCString()+"; path=/";
+    document.cookie = c_name+"="+window.escape(value)+"; expires="+exdate.toUTCString()+"; path=/";
 };
 
 // strip function
@@ -53,6 +57,68 @@ utils.strip = function (str, character) {
     var result = str.substring(start, end+1);
     return result;
 };
+
+// add indexOf method to Array (for IE8)
+if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function(searchElement, fromIndex) {
+        if (this == null)
+            throw new TypeError("\"this\" is undefined or null.");
+        var O = Object(this);
+        var len = O.length >>> 0;
+        if (len === 0)
+            return -1;
+        var n = +fromIndex || 0;
+        if (Math.abs(n) === Infinity)
+            n = 0;
+        if (n >= len)
+            return -1;
+        var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+        while (k < len) {
+            if (k in O && O[k] === searchElement)
+                return k;
+            k++;
+        }
+        return -1;
+    };
+}
+
+// add keys method to Object (for IE < 9)
+// from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+if (!Object.keys) {
+    Object.keys = (function() {
+        "use strict";
+        var hasOwnProperty = Object.prototype.hasOwnProperty,
+            hasDontEnumBug = !({ toString: null }).propertyIsEnumerable("toString"),
+            dontEnums = [
+                "toString",
+                "toLocaleString",
+                "valueOf",
+                "hasOwnProperty",
+                "isPrototypeOf",
+                "propertyIsEnumerable",
+                "constructor"
+            ],
+            dontEnumsLength = dontEnums.length;
+
+        return function(obj) {
+            if (typeof obj !== "object" && (typeof obj !== "function" || obj === null))
+                throw new TypeError("Object.keys called on non-object");
+
+            var result = [], prop, i;
+            for (prop in obj) {
+                if (hasOwnProperty.call(obj, prop))
+                  result.push(prop);
+            }
+            if (hasDontEnumBug) {
+                for (i = 0; i < dontEnumsLength; i++) {
+                    if (hasOwnProperty.call(obj, dontEnums[i]))
+                        result.push(dontEnums[i]);
+                }
+            }
+            return result;
+        };
+    }());
+}
 
 // isinstance
 utils.isinstance = function (obj, type) {
@@ -130,7 +196,7 @@ utils._extract_browser_version = function (ua, re) {
     if (matches && !isNaN(parseFloat(matches[1])))
         return parseFloat(matches[1]);
     return 0.0;
-}
+};
 utils._get_browser_info = function () {
     // get browser name and version
     var name = "unknown";
@@ -168,7 +234,7 @@ utils._get_browser_info = function () {
     }
     else if (ua.indexOf("trident") != -1) {
         name = "ie";
-        version = utils._extract_browser_version(ua, /rv:(\d+\.\d+)/);
+        version = utils._extract_browser_version(ua, /rv (\d+\.\d+)/);
         utils.browser_is_ie9 = true;
     }
     else if (ua.indexOf("opera") != -1) {
@@ -190,7 +256,7 @@ utils._get_browser_info = function () {
     utils.browser_name = name;
     utils["browser_is_"+name] = true;
     utils.browser_version = version;
-    
+
     // detect type of device
     utils.is_phone = ua.indexOf("iphone") != -1 || ua.indexOf("ipod") != -1 || ua.indexOf("android") != -1 || ua.indexOf("iemobile") != -1 || ua.indexOf("opera mobi") != -1 || ua.indexOf("opera mini") != -1 || ua.indexOf("windows ce") != -1 || ua.indexOf("fennec") != -1 || ua.indexOf("series60") != -1 || ua.indexOf("symbian") != -1 || ua.indexOf("blackberry") != -1 || window.orientation !== undefined;
     utils.is_tablet = window.navigator && window.navigator.platform == "iPad";
@@ -202,7 +268,7 @@ utils._get_browser_info();
 // Translations utils
 utils._translations = { en: {} };
 utils._current_lang = "en";
-utils._current_catalog = utils._translations["en"];
+utils._current_catalog = utils._translations.en;
 utils.use_lang = function (lang) {
     utils._current_lang = lang;
     if (!utils._translations[lang])
@@ -226,8 +292,8 @@ utils.add_translations = function (translations, lang) {
 utils.translate = function (text) {
     if (text in utils._current_catalog)
         return utils._current_catalog[text];
-    else if (utils._current_lang != "en" && text in utils._translations["en"])
-        return utils._translations["en"][text];
+    else if (utils._current_lang != "en" && text in utils._translations.en)
+        return utils._translations.en[text];
     return text;
 };
 utils.get_date_display = function (d) {
@@ -289,53 +355,27 @@ utils.get_date_display = function (d) {
     return day+" "+month+" "+year+" "+utils.translate("at")+" "+time;
 };
 
+// Versions comparison
+utils.compare_versions = function (v1, comparator, v2) {
+    "use strict";
+    comparator = comparator == "=" ? "==" : comparator;
+    var v1parts = v1.split("."), v2parts = v2.split(".");
+    var maxLen = Math.max(v1parts.length, v2parts.length);
+    var part1, part2;
+    var cmp = 0;
+    for (var i=0; i < maxLen && !cmp; i++) {
+        part1 = parseInt(v1parts[i], 10) || 0;
+        part2 = parseInt(v2parts[i], 10) || 0;
+        if (part1 < part2)
+            cmp = 1;
+        if (part1 > part2)
+            cmp = -1;
+    }
+    return eval("0" + comparator + cmp);
+};
 
 // JavaScript classes related functions
 utils.setup_class = function (obj, options, allowed_options) {
-    // listeners
-    if (!obj._listeners)
-        obj._listeners = {};
-    if (!obj.constructor.prototype.add_listener)
-        obj.constructor.prototype.add_listener = function (evtname, arg1, arg2, arg3) {
-            // arguments: evtname, [receiver], [params], fct
-            var listener = {};
-            if (arg3 !== undefined) {
-                listener.receiver = arg1;
-                listener.params = arg2;
-                listener.fct = arg3;
-            }
-            else if (arg2 !== undefined) {
-                listener.receiver = arg1;
-                listener.fct = arg2;
-            }
-            else if (arg1 !== undefined) {
-                listener.fct = arg1;
-            }
-            else {
-                throw("Invalid listener for event "+evtname+" (no function given to add_listener function).");
-            }
-            if (!this._listeners[evtname])
-                this._listeners[evtname] = [listener];
-            else
-                this._listeners[evtname].push(listener);
-        };
-    if (!obj.constructor.prototype.call_listeners)
-        obj.constructor.prototype.call_listeners = function (evtname, data) {
-            if (!this._listeners[evtname])
-                return;
-            for (var i=0; i < this._listeners[evtname].length; i++) {
-                var listener = this._listeners[evtname][i];
-                try {
-                    if (listener.receiver)
-                        listener.fct(listener.receiver, data, listener.params);
-                    else
-                        listener.fct(data, listener.params);
-                }
-                catch (e) {
-                    console.log("Error when calling listener for event "+evtname+" of object "+this.constructor.name+".\n    Error: "+e+"\n    Receiver: "+listener.receiver+"\n    Receiving function is: "+listener.fct.toString());
-                }
-            }
-        };
     // translations
     if (!obj.constructor.prototype.add_translations)
         obj.constructor.prototype.add_translations = function (translations) {
@@ -371,3 +411,36 @@ utils.setup_class = function (obj, options, allowed_options) {
         obj.set_options(options);
 };
 
+// MD5 sum computation (requires the SparkMD5 library)
+utils.compute_md5 = function (file, callback, progress_callback) {
+    if (!window.File)
+        return callback("unsupported");
+    var blobSlice = window.File.prototype.slice || window.File.prototype.mozSlice || window.File.prototype.webkitSlice;
+    var chunkSize = 2097152; // Read in chunks of 2MB
+    var chunks = Math.ceil(file.size / chunkSize);
+    var currentChunk = 0;
+    var spark = new SparkMD5.ArrayBuffer();
+    var fileReader = new FileReader();
+    fileReader.onload = function (e) {
+        spark.append(e.target.result); // Append array buffer
+        ++currentChunk;
+        if (progress_callback) {
+            progress_callback(Math.min(currentChunk * chunkSize, file.size) / file.size);
+        }
+
+        if (currentChunk < chunks) {
+            loadNext();
+        } else {
+            callback(spark.end());
+        }
+    };
+    fileReader.onerror = function () {
+        console.warn("MD5 computation failed");
+    };
+    function loadNext() {
+        var start = currentChunk * chunkSize;
+        var end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize;
+        fileReader.readAsArrayBuffer(blobSlice.call(file, start, end));
+    }
+    loadNext();
+};

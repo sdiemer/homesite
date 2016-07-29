@@ -7,6 +7,9 @@ import sys
 BASE_DIR = os.path.dirname(os.path.abspath(os.path.expanduser(__file__)))
 if os.path.dirname(BASE_DIR) not in sys.path:
     sys.path.append(os.path.dirname(BASE_DIR))
+LOGS_DIR = os.path.join(BASE_DIR, 'temp')
+if not os.path.exists(LOGS_DIR):
+    os.makedirs(LOGS_DIR)
 
 DEBUG = False
 DEBUG_TOOLBAR = False
@@ -105,7 +108,6 @@ TEMPLATES = (
                 'django.template.context_processors.static',
                 # 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-                'homesite.main.context_processors.common',
             )
         },
     },
@@ -131,7 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_web_utils.file_browser',
     'django_web_utils.monitoring',
-    'homesite.main',
+    'homesite.base',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -164,6 +166,11 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler',
         },
+        'django_log_file': {
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': os.path.join(LOGS_DIR, 'django.log'),
+        },
     },
     'loggers': {
         'django.request': {
@@ -171,6 +178,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+    },
+    'root': {
+        'handlers': ['django_log_file'],
+        'level': 'INFO',
+        'propagate': False,
     },
 }
 
@@ -190,7 +202,7 @@ if not os.path.exists(FB_PUBLIC_ROOT):
 FB_PRIVATE_ROOT = os.path.join(BASE_DIR, 'hosting-private')
 if not os.path.exists(FB_PRIVATE_ROOT):
     os.makedirs(FB_PRIVATE_ROOT)
-FILE_BROWSER_BASE_TEMPLATE = 'storage.html'
+FILE_BROWSER_BASE_TEMPLATE = 'base/storage.html'
 FILE_BROWSER_DIRS = {
     'fb-public': (FB_PUBLIC_ROOT, '/storage/public/'),
     'fb-private': (FB_PRIVATE_ROOT, '/storage/private/'),
@@ -200,6 +212,11 @@ FILE_BROWSER_DIRS = {
 MUNIN_DIR = '/var/cache/munin/www'
 MUNIN_BASE = 'localdomain/localhost.localdomain/index.html'
 MUNIN_SCRIPTS_DIR = '/usr/lib/munin/cgi'
+
+# Daemons monitoring config (from django web utils)
+MONITORING_DAEMONS_INFO = 'homesite.base.daemons'
+MONITORING_BASE_TEMPLATE = 'base/monitoring.html'
+MONITORING_TEMPLATE_DATA = dict(section='monitoring')
 
 # Email config
 SERVER_EMAIL = 'server@host.com'  # Used as sender for error emails
@@ -224,12 +241,11 @@ if os.path.exists(override_path):
 if DEBUG:
     TEMPLATES[0]['OPTIONS']['debug'] = True
     TEMPLATES[0]['OPTIONS']['string_if_invalid'] = 'Invalid template string: "%s"'
-    # set debug level for logging
-    LOGGING['loggers']['django'] = {
-        'handlers': ['console'],
-        'level': 'WARNING',
-        'propagate': True,
-    }
+    LOGGING['root']['level'] = 'DEBUG'
+    LOGGING['root']['handlers'] = ['console']
+else:
+    import logging
+    logging.captureWarnings(False)
 # Debug toolbar
 if DEBUG_TOOLBAR:
     INSTALLED_APPS += ('debug_toolbar',)

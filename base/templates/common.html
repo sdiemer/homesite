@@ -24,7 +24,7 @@
 	</main>
 
 	<header>
-		<div><i class="fa fa-home"></i> Homesite</div>
+		<a href="/"><i class="fa fa-home"></i> Homesite</a>
 	</header>
 
 	<aside>
@@ -46,10 +46,6 @@
 					<i class="fa fa-gamepad"></i>
 					{% trans "ARK server" %}
 				</a>
-				<a href="{% url 'info' %}" {% if section == "info" %}class="active"{% endif %}>
-					<i class="fa fa-info-circle"></i>
-					{% trans "Server info" %}
-				</a>
 				{% if user.is_staff %}
 					<a href="/storage/public-ui/">
 						<i class="fa fa-file"></i>
@@ -60,13 +56,23 @@
 						{% trans "Private hosting" %}
 					</a>
 				{% endif %}
+				<a href="{% url 'info' %}" {% if section == "info" %}class="active"{% endif %}>
+					<i class="fa fa-info-circle"></i>
+					{% trans "Server info" %}
+				</a>
 				<a href="{% url 'munin' %}" {% if section == "munin" %}class="active"{% endif %}>
 					<i class="fa fa-bar-chart"></i>
 					{% trans "Munin" %}
 				</a>
+				{% if user.is_superuser %}
+					<a href="{% url 'monitoring-panel' %}" {% if section == "monitoring" %}class="active"{% endif %}>
+						<i class="fa fa-cogs"></i>
+						{% trans "Logs and daemons" %}
+					</a>
+				{% endif %}
 				{% if user.is_staff %}
 					<a href="/django/">
-						<i class="fa fa-cogs"></i>
+						<i class="fa fa-wrench"></i>
 						{% trans "Django administration" %}
 					</a>
 				{% endif %}

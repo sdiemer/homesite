@@ -52,6 +52,16 @@ body > header {
 	color: #adf;
 }
 
+header a {
+	color: #adf;
+	display: block;
+	text-decoration: none;
+}
+header a:hover,
+header a:active {
+	color: #fff;
+}
+
 aside a {
 	margin: 10px 0;
 	padding: 10px;

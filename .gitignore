@@ -15,8 +15,6 @@ var
 sdist
 develop-eggs
 .installed.cfg
-lib
-lib64
 __pycache__
 
 # Installer logs
@@ -28,14 +26,12 @@ pip-log.txt
 nosetests.xml
 
 # Website project
+db.sqlite3
 hosting-private
 hosting-public
+settings_override.py
 static/admin
 static/debug_toolbar
 static/file_browser
 static/monitoring
-settings_override.py
-uwsgi.log
-uwsgi.pid
-uwsgi.sock
-db.sqlite3
+temp/
