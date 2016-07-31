@@ -21,7 +21,8 @@ PROJ_NAME="homesite"
 PROJ_USER="homesite"
 PROJ_DIR="/home/$PROJ_USER/homesite"
 WSGI_INI="$PROJ_DIR/scripts/uwsgi.ini"
-PID_FILE="$PROJ_DIR/uwsgi.pid"
+TEMP_DIR="$PROJ_DIR/temp"
+PID_FILE="$TEMP_DIR/uwsgi.pid"
 
 # check arg
 if [[ $1 != "stop" && $1 != "start" && $1 != "restart" ]]; then
@@ -55,6 +56,7 @@ if [[ $1 = "start" || $1 = "restart" ]]; then
     if [[ $(whoami) != $PROJ_USER ]]; then
         CMD_LINE="sudo su $PROJ_USER -c"
     fi
+    mkdir -p "$TEMP_DIR"
     unset UWSGI_ORIGINAL_PROC_NAME
     unset UWSGI_RELOADS
     $CMD_LINE "uwsgi --ini $WSGI_INI"
