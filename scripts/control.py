@@ -35,7 +35,7 @@ from django_web_utils import system_utils
 USER = 'homesite'
 BASE_DIR = '/home/homesite/homesite'
 TEMP_DIR = '%s/temp' % BASE_DIR
-CONF_OVERRIDE = '%s/settings_override.py'
+CONF_OVERRIDE = '%s/settings_override.py' % BASE_DIR
 DUMPS_DIR = '%s/dbdumps' % BASE_DIR
 LOG_PATH = '%s/startup.log' % TEMP_DIR
 UWSGI_PID = '%s/uwsgi.pid' % TEMP_DIR
