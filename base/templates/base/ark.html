@@ -22,6 +22,10 @@
 			<input type="hidden" name="action" value="stop"/>
 			<button type="submit">{% trans 'Stop server' %}</button>
 		</form>
+		<form method="post" action="." style="display: inline;">{% csrf_token %}
+			<input type="hidden" name="action" value="validate"/>
+			<button type="submit">{% trans 'Validate game files' %}</button>
+		</form>
 	</div>
 	<p class="output">{{ ps_out|linebreaksbr }}</p>
 

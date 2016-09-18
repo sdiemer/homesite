@@ -105,7 +105,11 @@ def ark(request):
     tplt_args = dict()
 
     if request.method == 'POST':
-        action = 'restart' if request.POST.get('action') == 'restart' else 'stop'
+        actions = ('restart', 'stop', 'dump', 'update', 'validate')
+        if request.POST.get('action') in actions:
+            action = request.POST['action']
+        else:
+            action = 'restart'
         cmd = ['sudo', '-SnH', os.path.join(homesite.__path__[0], 'scripts', 'ark_server.py'), action, request.user.username]
         p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
         out, err = p.communicate()
