@@ -7,7 +7,7 @@ Usage: <script name> [restart|stop|dump|update|validate] [<user name>]
 
 To allow another user to run this script:
 sudo visudo
-homesite ALL=(ALL) NOPASSWD: <path>
+homesite ALL=(ALL) NOPASSWD: /home/homesite/homesite/scripts/ark_server.py
 """
 import datetime
 import os
