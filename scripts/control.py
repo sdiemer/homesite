@@ -68,7 +68,7 @@ if __name__ == '__main__':
     _log('Checking that the script is not currently running...')
     rc = _exec('ps aux | grep -v grep | grep -v " %s " | grep %s' % (os.getpid(), os.path.basename(__file__)))
     if rc == 0:
-        _err('The startup script is already running.')
+        _err('The script is already running.')
         sys.exit(1)
     _log('OK')
     # Get command

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from mimetypes import MimeTypes
 import logging
@@ -106,7 +106,7 @@ def ark(request):
 
     if request.method == 'POST':
         action = 'restart' if request.POST.get('action') == 'restart' else 'stop'
-        cmd = ['python3', os.path.join(homesite.__path__[0], 'scripts', 'ark_server.py'), action, request.user.username]
+        cmd = ['sudo', '-SnH', '%s %s %s' % (os.path.join(homesite.__path__[0], 'scripts', 'ark_server.py'), action, request.user.username)]
         p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
         out, err = p.communicate()
         out = str(out, 'utf-8').strip() if out else 'No stdout.'
@@ -132,7 +132,7 @@ def ark(request):
     tplt_args['ps_out'] = ps_out
 
     # Get log content
-    path = os.path.abspath(os.path.expanduser('~/ark_server.log'))
+    path = '/home/steam/ark/ark_server.log'
     log = _('Log file does not exists.')
     if os.path.isfile(path):
         with open(path, 'r') as fd:
