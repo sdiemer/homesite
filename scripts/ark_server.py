@@ -97,9 +97,13 @@ if __name__ == '__main__':
     if os.path.exists(dump_path):
         _log('Saves already dumped today.')
     else:
-        shutil.copytree(os.path.join(ARK_GAME_DIR, 'ShooterGame', 'Saved'), dump_path)
-        _exec('chmod', '-R', '777', dump_path)
-        _log('Backup done.')
+        save_dir = os.path.join(ARK_GAME_DIR, 'ShooterGame', 'Saved')
+        if os.path.exists(save_dir):
+            shutil.copytree(save_dir, dump_path)
+            _exec('chmod', '-R', '777', dump_path)
+            _log('Backup done.')
+        else:
+            _log('No saves to backup.')
 
     if action in ('restart', 'update', 'validate'):
         _log('\n---- Update server ----')
