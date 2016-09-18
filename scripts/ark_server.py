@@ -97,7 +97,7 @@ if __name__ == '__main__':
         _log('Saves already dumped today.')
     else:
         if os.path.exists(os.path.join(ARK_GAME_DIR, 'ShooterGame', 'Saved')):
-            _exec('tar', '-cvzf', dump_path, '-C', os.path.join(ARK_GAME_DIR, 'ShooterGame'), 'Saved')
+            _exec('tar', '-czf', dump_path, '-C', os.path.join(ARK_GAME_DIR, 'ShooterGame'), 'Saved')
             _exec('chmod', '-R', '777', dump_path)
             _log('Backup done.')
         else:
