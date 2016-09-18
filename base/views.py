@@ -106,7 +106,7 @@ def ark(request):
 
     if request.method == 'POST':
         action = 'restart' if request.POST.get('action') == 'restart' else 'stop'
-        cmd = ['sudo', '-SnH', '%s %s %s' % (os.path.join(homesite.__path__[0], 'scripts', 'ark_server.py'), action, request.user.username)]
+        cmd = ['sudo', '-SnH', os.path.join(homesite.__path__[0], 'scripts', 'ark_server.py'), action, request.user.username]
         p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
         out, err = p.communicate()
         out = str(out, 'utf-8').strip() if out else 'No stdout.'
