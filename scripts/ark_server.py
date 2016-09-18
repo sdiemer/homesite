@@ -117,4 +117,4 @@ if __name__ == '__main__':
 
     if action == 'restart':
         _log('\n---- Starting server ----')
-        os.execl('/bin/bash', 'bash', 'cd %s && TheIsland?listen?SessionName=akiserver?ServerPassword=1234lol?ServerAdminPassword=qsdfghjklm?MaxPlayers=12?XPMultiplier=3?HarvestAmountMultiplier=3?TamingSpeedMultiplier=3?PlayerCharacterWaterDrainMultiplier=0.7?PlayerCharacterFoodDrainMultiplier=0.7?ShowMapPlayerLocation=True?allowThirdPersonPlayer=True?alwaysNotifyPlayerJoined=True?alwaysNotifyPlayerLeft=True?ServerCrosshair=True -server -log' % os.path.join(ARK_GAME_DIR, 'ShooterGame', 'Binaries', 'Linux'))
+        os.execl(os.path.join(ARK_GAME_DIR, 'ShooterGame', 'Binaries', 'Linux', 'ShooterGameServer'), 'ShooterGameServer', 'TheIsland?listen?SessionName=akiserver?ServerPassword=1234lol?ServerAdminPassword=qsdfghjklm?MaxPlayers=12?XPMultiplier=3?HarvestAmountMultiplier=3?TamingSpeedMultiplier=3?PlayerCharacterWaterDrainMultiplier=0.7?PlayerCharacterFoodDrainMultiplier=0.7?ShowMapPlayerLocation=True?allowThirdPersonPlayer=True?alwaysNotifyPlayerJoined=True?alwaysNotifyPlayerLeft=True?ServerCrosshair=True', '-server', '-log')
