@@ -27,6 +27,7 @@ nosetests.xml
 
 # Website project
 db.sqlite3
+dbdumps
 hosting-private
 hosting-public
 settings_override.py
