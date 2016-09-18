@@ -67,6 +67,8 @@ if __name__ == '__main__':
     if os.environ['USER'] != USER:
         system_utils.run_as(USER)
     # Prepare log file path
+    if not os.path.exists(ARK_DIR):
+        os.makedirs(ARK_DIR)
     if os.path.exists(LOG_PATH):
         if os.path.exists(LOG_BU_PATH):
             os.remove(LOG_BU_PATH)
