@@ -7,9 +7,10 @@ import sys
 BASE_DIR = os.path.dirname(os.path.abspath(os.path.expanduser(__file__)))
 if os.path.dirname(BASE_DIR) not in sys.path:
     sys.path.append(os.path.dirname(BASE_DIR))
-LOGS_DIR = os.path.join(BASE_DIR, 'temp')
-if not os.path.exists(LOGS_DIR):
-    os.makedirs(LOGS_DIR)
+TMP_DIR = os.path.join(BASE_DIR, 'temp')
+if not os.path.exists(TMP_DIR):
+    os.makedirs(TMP_DIR)
+FILE_UPLOAD_TEMP_DIR = TMP_DIR
 
 DEBUG = False
 DEBUG_TOOLBAR = False
@@ -169,7 +170,7 @@ LOGGING = {
         'django_log_file': {
             'class': 'logging.FileHandler',
             'formatter': 'verbose',
-            'filename': os.path.join(LOGS_DIR, 'django.log'),
+            'filename': os.path.join(TMP_DIR, 'django.log'),
         },
     },
     'loggers': {
