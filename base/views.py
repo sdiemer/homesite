@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from mimetypes import MimeTypes
 import logging
 import os
 import subprocess
@@ -8,11 +7,11 @@ import subprocess
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
+from django.views.static import serve
 # Django web utils
 from django_web_utils.monitoring import sysinfo
 # homesite
@@ -47,21 +46,7 @@ def munin(request):
 def munin_file(request, path):
     if not path:
         path = 'index.html'
-    file_path = os.path.join(settings.MUNIN_DIR, path)
-    if not file_path.startswith(settings.MUNIN_DIR):
-        # User tried to inject ".."
-        raise Http404()
-    if not os.path.exists(file_path):
-        raise Http404()
-    if not os.path.isfile(file_path):
-        raise PermissionDenied()
-    fsock = open(file_path, 'rb')
-    try:
-        content_type = MimeTypes().guess_type(file_path)[0]
-    except Exception as e:
-        logger.error('Unable to guess content type of file "%s": %s', file_path, e)
-        content_type = None
-    return HttpResponse(fsock, content_type=content_type)
+    return serve(request, path, document_root=settings.MUNIN_DIR, show_indexes=False)
 
 
 @login_required
