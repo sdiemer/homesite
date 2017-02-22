@@ -1,28 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-### BEGIN INIT INFO
-# Provides:          homesite
-# Required-Start:    $local_fs $network
-# Required-Stop:     $local_fs $network
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: homesite
-# Description:       homesite management script
-### END INIT INFO
-
-# This script should be located in /etc/init.d/homesite
-#   ln -s control.py /etc/init.d/homesite
-# To make this script start at boot:
-#   update-rc.d homesite defaults 96 00
-# To remove it use:
-#   update-rc.d -f homesite remove
-
-"""
+'''
 Script to control homesite server.
 
 Usage: <script name> [-d] [start|restart|stop|dump|update]
-"""
+'''
 import datetime
 import imp
 import os
