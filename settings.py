@@ -114,7 +114,7 @@ TEMPLATES = (
     },
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -250,7 +250,7 @@ else:
 # Debug toolbar
 if DEBUG_TOOLBAR:
     INSTALLED_APPS += ('debug_toolbar',)
-    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    MIDDLEWARE = ('debug_toolbar.middleware.DebugToolbarMiddleware',) + MIDDLEWARE
     DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': '/static/jquery/jquery-latest.min.js'}
 
 # Disable logging config for daemons
