@@ -4,6 +4,7 @@
 Script to control homesite server.
 
 Usage: <script name> [-d] [start|restart|stop|dump|update]
+    -d: daemonize
 '''
 import datetime
 import imp
