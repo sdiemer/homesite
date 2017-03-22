@@ -11,7 +11,8 @@
 ### END INIT INFO
 
 # This script should be located in /etc/init.d/homesite
-#   ln -s /home/homesite/homesite/scripts/init.d.sh /etc/init.d/homesite
+#   (do not make a link because it won't work at system boot)
+#   cp /home/homesite/homesite/scripts/init.d.sh /etc/init.d/homesite
 # To make this script start at boot:
 #   update-rc.d homesite defaults 96 00
 # To remove it use:
