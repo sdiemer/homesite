@@ -21,7 +21,7 @@ urlpatterns = [
     # Base app
     url(r'^', include('homesite.base.urls')),
     # django admin
-    url(r'^django/', include(admin.site.urls), name='admin_django'),
+    url(r'^django/', admin.site.urls),
     # media serving
     url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, 'show_indexes': settings.DEBUG}, name='media'),
     # Your app

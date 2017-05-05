@@ -96,7 +96,7 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'T^_r4$hlo9c$_*u7xj)_x$2%+5Tb#-5%+bf&4(%o_@!bF=$1m_'
 
-TEMPLATES = (
+TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'APP_DIRS': True,
@@ -112,19 +112,22 @@ TEMPLATES = (
             )
         },
     },
-)
+]
 
-MIDDLEWARE = (
-    'django.middleware.common.CommonMiddleware',
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-)
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.locale.LocaleMiddleware',
+]
 
 ROOT_URLCONF = 'homesite.urls'
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -135,7 +138,7 @@ INSTALLED_APPS = (
     'django_web_utils.file_browser',
     'django_web_utils.monitoring',
     'homesite.base',
-)
+]
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -244,13 +247,15 @@ if DEBUG:
     TEMPLATES[0]['OPTIONS']['string_if_invalid'] = 'Invalid template string: "%s"'
     LOGGING['root']['level'] = 'DEBUG'
     LOGGING['root']['handlers'] = ['console']
+    import warnings
+    warnings.simplefilter('always', DeprecationWarning)
 else:
     import logging
     logging.captureWarnings(False)
 # Debug toolbar
 if DEBUG_TOOLBAR:
-    INSTALLED_APPS += ('debug_toolbar',)
-    MIDDLEWARE = ('debug_toolbar.middleware.DebugToolbarMiddleware',) + MIDDLEWARE
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
     DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': '/static/jquery/jquery-latest.min.js'}
 
 # Disable logging config for daemons
