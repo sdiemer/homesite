@@ -256,8 +256,10 @@ else:
 # Debug toolbar
 if DEBUG_TOOLBAR:
     INSTALLED_APPS.append('debug_toolbar')
-    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': '/static/jquery/jquery-latest.min.js'}
+    if 'INTERNAL_IPS' not in globals():
+        INTERNAL_IPS = '127.0.0.1'
 
 # Disable logging config for daemons
 if os.environ.get('DJANGO_LOGGING') == 'none':

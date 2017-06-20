@@ -34,3 +34,7 @@ if settings.DEBUG:
     urlpatterns.append(url(r'^404/$', TemplateView.as_view(template_name='404.html'), name='test_404'))
     # 500 test page
     urlpatterns.append(url(r'^500/$', TemplateView.as_view(template_name='500.html'), name='test_500'))
+
+if settings.DEBUG_TOOLBAR:
+    import debug_toolbar
+    urlpatterns.insert(0, url(r'^__debug__/', include(debug_toolbar.urls)))
