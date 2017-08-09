@@ -152,6 +152,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
+            '()': 'django.utils.log.ServerFormatter',
             'format': '%(asctime)s %(module)s %(levelname)s %(message)s',
         },
     },
