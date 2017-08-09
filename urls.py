@@ -4,7 +4,7 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth.views import login, logout_then_login
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import RedirectView, TemplateView
 from django.views.static import serve
 
@@ -16,8 +16,8 @@ urlpatterns = [
     # I18N
     url(r'^i18n/', include('django.conf.urls.i18n'), name='i18n'),
     # login, logout
-    url(r'^login/$', login, {'template_name': 'login.html'}, name='login'),
-    url(r'^logout/$', logout_then_login, name='logout'),
+    url(r'^login/$', LoginView.as_view(template_name='login.html'), name='login'),
+    url(r'^logout/$', LogoutView.as_view(next_page='/login/'), name='logout'),
     # Base app
     url(r'^', include('homesite.base.urls')),
     # django admin
