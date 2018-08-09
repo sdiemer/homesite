@@ -17,10 +17,10 @@ def protected_serve(request, *args, **kwargs):
 urlpatterns = [
     url(r'^get_ip/$', views.get_ip, name='get_ip'),
     # file brwoser
-    url(r'^storage/public-ui/', include('django_web_utils.file_browser.urls', namespace='fb-public'), {'namespace': 'fb-public'}),
+    url(r'^storage/public-ui/', include(('django_web_utils.file_browser.urls', 'fb-public'), namespace='fb-public'), {'namespace': 'fb-public'}),
     url(r'^storage/public/(?P<path>.*)$', serve, {'document_root': settings.FB_PUBLIC_ROOT, 'show_indexes': settings.DEBUG}),
     # protected file brwoser
-    url(r'^storage/private-ui/', include('django_web_utils.file_browser.urls', namespace='fb-private'), {'namespace': 'fb-private'}),
+    url(r'^storage/private-ui/', include(('django_web_utils.file_browser.urls', 'fb-private'), namespace='fb-private'), {'namespace': 'fb-private'}),
     url(r'^storage/private/(?P<path>.*)$', protected_serve, {'document_root': settings.FB_PRIVATE_ROOT, 'show_indexes': settings.DEBUG}),
     # Daemons monitoring
     url(r'^daemons/', include('django_web_utils.monitoring.urls')),
