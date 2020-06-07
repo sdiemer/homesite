@@ -29,10 +29,18 @@ git clone https://github.com/sdiemer/homesite.git
 chown -R homesite:homesite /home/homesite
 ```
 
+### Create links to static files
+
+``` bash
+ln -s /usr/lib/python3/dist-packages/django_web_utils/file_browser/static/file_browser /home/homesite/homesite/served/static/
+ln -s /usr/lib/python3/dist-packages/django_web_utils/monitoring/static/monitoring /home/homesite/homesite/served/static/
+```
+
 ### Superuser account creation
 
 ``` bash
 python3 homesite/scripts/control.py createuser admin@example.com:test:superuser
+chown -R homesite:homesite /home/homesite
 ```
 
 ### Optional: Munin configuration to access to cgi generated files (graphs zoom)
