@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import imp
+import locale
 import os
 import sys
 
-BASE_DIR = os.path.dirname(os.path.abspath(os.path.expanduser(__file__)))
+os.environ['LANG'] = 'C.UTF-8'
+os.environ['LC_ALL'] = 'C.UTF-8'
+locale.setlocale(locale.LC_ALL, 'C.UTF-8')
+
+BASE_DIR = os.path.dirname(os.path.realpath(os.path.expanduser(__file__)))
 if os.path.dirname(BASE_DIR) not in sys.path:
     sys.path.append(os.path.dirname(BASE_DIR))
 TMP_DIR = os.path.join(BASE_DIR, 'temp')
@@ -20,13 +25,6 @@ ADMINS = (
     ('Admin', 'admin@server.com'),
 )
 MANAGERS = ADMINS
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
@@ -80,7 +78,7 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 # Additional locations of static files
-STATIC_DIR = os.path.join(BASE_DIR, 'static')  # this var is not used by Django
+STATIC_DIR = os.path.join(BASE_DIR, 'served', 'static')  # this var is not used by Django
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -132,9 +130,9 @@ ROOT_URLCONF = 'homesite.urls'
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    # 'django.contrib.sessions',  # disabled because no database is used
     'django.contrib.messages',
-    'django.contrib.admin',
+    # 'django.contrib.admin',  # disabled because no database is used
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
     'django_web_utils.file_browser',
@@ -143,8 +141,9 @@ INSTALLED_APPS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
     # 'django.contrib.auth.backends.RemoteUserBackend',
+    'homesite.backend.SettingsBackend',
 )
 
 # Logging config
@@ -195,18 +194,26 @@ LOGGING = {
 
 # Session config
 SESSION_COOKIE_NAME = 'hssessionid'
-# SESSION_COOKIE_AGE = 3600 # in seconds
+SESSION_COOKIE_AGE = 12 * 3600  # in seconds
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_SECURE = True
+SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+SESSION_FILE_PATH = TMP_DIR
+CSRF_COOKIE_SECURE = True
 
 # Auth config
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
+AUTHENTICATION_USERS = {
+    # 'admin': {'is_active': True, 'is_staff': False, 'is_superuser': False, 'password': 'pbkdf2_sha256$30000$Vo0VlMnkR4Bk$qEvtdyZRWTcOsCnI/oQ7fVOu1XAURIZYoOZ3iq8Dr4M='}
+}
 
 # File browser config
-FB_PUBLIC_ROOT = os.path.join(BASE_DIR, 'hosting-public')
+FB_PUBLIC_ROOT = os.path.join(BASE_DIR, 'served', 'public')
 if not os.path.exists(FB_PUBLIC_ROOT):
     os.makedirs(FB_PUBLIC_ROOT)
-FB_PRIVATE_ROOT = os.path.join(BASE_DIR, 'hosting-private')
+FB_PRIVATE_ROOT = os.path.join(BASE_DIR, 'served', 'private')
 if not os.path.exists(FB_PRIVATE_ROOT):
     os.makedirs(FB_PRIVATE_ROOT)
 FILE_BROWSER_BASE_TEMPLATE = 'base/storage.html'
@@ -236,9 +243,9 @@ EMAIL_PORT = 25
 
 # Import instance settings
 # -------------------------------------------------------------------------------
-override_path = os.path.join(BASE_DIR, 'settings_override.py')
-if os.path.exists(override_path):
-    override = imp.load_source('settings_override', override_path)
+SETTINGS_OVERRIDE_PATH = os.path.join(BASE_DIR, 'settings_override.py')
+if os.path.exists(SETTINGS_OVERRIDE_PATH):
+    override = imp.load_source('settings_override', SETTINGS_OVERRIDE_PATH)
     for key in dir(override):
         if not key.startswith('_'):
             globals()[key] = getattr(override, key)

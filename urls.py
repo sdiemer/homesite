@@ -3,12 +3,9 @@
 # Django
 from django.conf import settings
 from django.conf.urls import include, url
-from django.contrib import admin
 from django.views.generic import RedirectView, TemplateView
 from django.views.static import serve
 
-
-admin.autodiscover()
 
 urlpatterns = [
     url(r'^favicon\.ico', RedirectView.as_view(permanent=True, url='/static/img/favicon.png'), name='favicon'),
@@ -18,8 +15,6 @@ urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n'), name='i18n'),
     # Base app
     url(r'^', include('homesite.base.urls')),
-    # django admin
-    url(r'^django/', admin.site.urls),
     # media serving
     url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, 'show_indexes': settings.DEBUG}, name='media'),
 ]

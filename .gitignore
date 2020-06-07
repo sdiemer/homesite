@@ -28,11 +28,11 @@ nosetests.xml
 # Website project
 db.sqlite3
 dbdumps
-hosting-private
-hosting-public
+served/private
+served/public
+served/static/admin
+served/static/debug_toolbar
+served/static/file_browser
+served/static/monitoring
 settings_override.py
-static/admin
-static/debug_toolbar
-static/file_browser
-static/monitoring
 temp/
