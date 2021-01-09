@@ -51,6 +51,8 @@ def munin_file(request, path):
         # patch CSS for black theme
         munin_css = os.path.join(settings.MUNIN_DIR, 'static/style-new.css')
         if os.path.exists(munin_css):
+            if not os.path.exists(settings.MEDIA_ROOT):
+                os.makedirs(settings.MEDIA_ROOT)
             local_css = os.path.join(settings.MEDIA_ROOT, 'munin-style-new-1.css')
             mtime = os.path.getmtime(munin_css)
             if not os.path.exists(local_css) or os.path.getmtime(local_css) != mtime:
