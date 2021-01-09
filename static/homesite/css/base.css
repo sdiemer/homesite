@@ -4,10 +4,10 @@
 }
 
 html {
-    background: #000;
-    color: #ddd;
+    background: #222;
+    color: #eee;
     font-size: 16px;
-    font-family: Audimat, Arial, Lucida Sans, Trebuchet MS, Helvetica, Verdana, sans-serif;
+    font-family: Audimat, Arial, sans-serif;
 }
 
 html, body, div, table, h1, h2, h3, h4, tr, th, td, img, ul, ol, li, form, pre { margin: 0; padding: 0; }
@@ -27,7 +27,7 @@ textarea { max-width: 100%; }
 /* page structure */
 body {
 	margin: 0;
-	margin-left: 250px;
+	margin-left: 220px;
 	overflow: auto;
 }
 
@@ -39,7 +39,7 @@ body > footer {
 	left: 0;
 	right: auto;
 	position: fixed;
-	width: 250px;
+	width: 220px;
 	background: #444;
 	color: #fff;
 	text-align: center;
@@ -48,7 +48,7 @@ body > header {
 	bottom: auto;
 	height: 80px;
 	line-height: 80px;
-	background: #222;
+	background: #000;
 	font-size: 200%;
 }
 body > aside {
@@ -58,14 +58,11 @@ body > aside {
 	overflow: auto;
 }
 body > footer {
+	padding: 5px 0;
 	top: auto;
-	height: 50px;
-	line-height: 25px;
-	background: #222;
-}
-
-body > header {
-	color: #3af;
+	height: 40px;
+	line-height: 20px;
+	background: #000;
 }
 
 header a {
@@ -82,7 +79,7 @@ aside a {
 	margin: 10px 0;
 	padding: 10px;
 	display: block;
-	color: #ccc;
+	color: #ddd;
 }
 aside a:hover {
 	color: #fff;
@@ -91,7 +88,7 @@ aside a:hover {
 }
 aside a.active {
 	color: #3af;
-	background-color: #000;
+	background-color: #222;
 	font-weight: bold;
 }
 
