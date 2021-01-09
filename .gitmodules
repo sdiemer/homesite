@@ -1,0 +1,6 @@
+[submodule "submodules/overlay-display-manager"]
+	path = submodules/overlay-display-manager
+	url = https://github.com/UbiCastTeam/overlay-display-manager
+[submodule "submodules/jsu"]
+	path = submodules/jsu
+	url = https://github.com/UbiCastTeam/jsu

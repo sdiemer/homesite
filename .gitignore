@@ -26,13 +26,4 @@ pip-log.txt
 nosetests.xml
 
 # Website project
-db.sqlite3
-dbdumps
-served/private
-served/public
-served/static/admin
-served/static/debug_toolbar
-served/static/file_browser
-served/static/monitoring
-settings_override.py
-temp/
+data

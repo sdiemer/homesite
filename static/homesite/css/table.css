@@ -1,0 +1,86 @@
+/* Table common style */
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+table caption {
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 3px;
+}
+table td,
+table th {
+    padding: 4px 6px;
+    border: 1px solid #777;
+}
+.title-block,
+table th,
+table tfoot tr {
+    padding: 4px 6px;
+    text-align: left;
+    font-weight: bold;
+    color: #fff;
+    background: #444;
+}
+table th.header {
+    cursor: pointer;
+}
+table th.header > span,
+table th.headerSortDown > span,
+table th.headerSortUp > span {
+    display: block;
+}
+table th.header > span:before,
+table th.headerSortDown > span:before,
+table th.headerSortUp > span:before {
+    padding-right: 5px;
+    content: "\f0dc"; /* fa-sort */
+    font: normal normal normal 14px/1 FontAwesome;
+}
+table th.header:hover {
+    background: #666;
+}
+table th.headerSortDown > span:before {
+    content: "\f0dd"; /* fa-sort-down */
+}
+table th.headerSortUp > span:before {
+    content: "\f0de"; /* fa-sort-up */
+}
+table tr.even > td,
+table.even-odd > tbody > tr:nth-child(even) > td,
+table.even-odd-2 > tbody > tr:nth-child(4n) > td,
+table.even-odd-2 > tbody > tr:nth-child(4n-1) > td {
+    background: rgba(40, 40, 40, 0.5);
+}
+table tr.odd > td,
+table.even-odd > tbody > tr:nth-child(odd) > td,
+table.even-odd-2 > tbody > tr:nth-child(4n-2) > td,
+table.even-odd-2 > tbody > tr:nth-child(4n-3) > td {
+    background: rgba(80, 80, 80, 0.5);
+}
+table.even-odd.hoverable > tbody > tr:hover > td,
+table.even-odd.hoverable > tbody > tr:hover.clicked > td,
+table.even-odd-2.hoverable > tbody > tr:hover > td,
+table.even-odd-2.hoverable > tbody > tr:hover.clicked > td {
+    background: rgba(0, 100, 200, 0.5);
+}
+table.even-odd.clickable > tbody > tr:hover > td,
+table.even-odd.clickable > tbody > tr:hover.clicked > td,
+table.even-odd-2.clickable > tbody > tr:hover > td,
+table.even-odd-2.clickable > tbody > tr:hover.clicked > td {
+    background: rgba(0, 100, 200, 0.5);
+    cursor: pointer;
+}
+table tr.even.clicked > td,
+table.even-odd > tbody > tr.clicked:nth-child(even) > td,
+table.even-odd-2 > tbody > tr.clicked:nth-child(4n) > td,
+table.even-odd-2 > tbody > tr.clicked:nth-child(4n-1) > td {
+    background: rgba(150, 150, 0, 0.5);
+}
+table tr.odd.clicked > td,
+table.even-odd > tbody > tr.clicked:nth-child(odd) > td,
+table.even-odd-2 > tbody > tr.clicked:nth-child(4n-2) > td,
+table.even-odd-2 > tbody > tr.clicked:nth-child(4n-3) > td {
+    background: rgba(170, 170, 0, 0.5);
+}

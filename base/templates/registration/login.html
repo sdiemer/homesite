@@ -4,9 +4,8 @@
 
 {% block scripts %}
 	<script type="text/javascript">
-		$(document).ready(function () {
-			$("#id_username").focus();
-			$(".login").addClass("active");
+		document.addEventListener('DOMContentLoaded', function () {
+			document.getElementById('id_username').focus();
 		});
 	</script>
 {% endblock %}

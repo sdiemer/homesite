@@ -1,14 +1,30 @@
 @font-face {
     font-family: "Audimat";
-    src: url("font_audimat.ttf") format("truetype");
+    src: url("font-audimat.otf") format("truetype");
 }
 
 html {
-	margin: 0;
-	font-size: 16px;
-	font-family: Audimat;
+    background: #000;
+    color: #ddd;
+    font-size: 16px;
+    font-family: Audimat, Arial, Lucida Sans, Trebuchet MS, Helvetica, Verdana, sans-serif;
 }
 
+html, body, div, table, h1, h2, h3, h4, tr, th, td, img, ul, ol, li, form, pre { margin: 0; padding: 0; }
+
+a {       color: #3af; text-decoration: none; }
+a:hover { color: #5cf; text-decoration: underline; }
+
+img { vertical-align: middle; border: 0 none; }
+
+iframe { border: 0 none; }
+
+textarea { max-width: 100%; }
+
+.sr-only { display: none; }
+
+
+/* page structure */
 body {
 	margin: 0;
 	margin-left: 250px;
@@ -32,7 +48,7 @@ body > header {
 	bottom: auto;
 	height: 80px;
 	line-height: 80px;
-	background: #000;
+	background: #222;
 	font-size: 200%;
 }
 body > aside {
@@ -45,21 +61,21 @@ body > footer {
 	top: auto;
 	height: 50px;
 	line-height: 25px;
-	background: #000;
+	background: #222;
 }
 
 body > header {
-	color: #adf;
+	color: #3af;
 }
 
 header a {
-	color: #adf;
+	color: #3af;
 	display: block;
-	text-decoration: none;
 }
 header a:hover,
 header a:active {
 	color: #fff;
+	text-decoration: none;
 }
 
 aside a {
@@ -67,15 +83,16 @@ aside a {
 	padding: 10px;
 	display: block;
 	color: #ccc;
-	text-decoration: none;
 }
 aside a:hover {
 	color: #fff;
 	background-color: #000;
+	text-decoration: none;
 }
 aside a.active {
-	color: #adf;
+	color: #3af;
 	background-color: #000;
+	font-weight: bold;
 }
 
 aside .account span {

@@ -28,11 +28,12 @@ def _exec(*args):
 class Controller():
     USER = 'homesite'
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.realpath(os.path.expanduser(__file__))))
-    TEMP_DIR = '%s/temp' % BASE_DIR
-    DUMPS_DIR = '%s/dbdumps' % BASE_DIR
-    LOG_PATH = '%s/startup.log' % TEMP_DIR
-    UWSGI_PID = '%s/uwsgi.pid' % TEMP_DIR
+    TMP_DIR = '%s/data/temp' % BASE_DIR
+    DUMPS_DIR = '%s/data/dbdumps' % BASE_DIR
+    LOG_PATH = '%s/data/logs/startup.log' % TMP_DIR
+    UWSGI_PID = '%s/data/temp/uwsgi.pid' % TMP_DIR
     USWGI_INI = '%s/scripts/uwsgi.ini' % BASE_DIR
+    MAX_DUMPS = 10
 
     def __init__(self):
         pass
@@ -80,7 +81,6 @@ class Controller():
                 dump_path = path or '%s/%s.db' % self.DUMPS_DIR, now.strftime('%Y-%m-%d_%H-%M-%S')
                 dump_cmd = 'cp "%s" "%s"' % (db_path, dump_path)
             elif 'mysql' in dbs.get('ENGINE'):
-                # MySQL
                 dump_path = path or '%s/%s.sql' % self.DUMPS_DIR, now.strftime('%Y-%m-%d_%H-%M-%S')
                 dump_cmd = 'mysqldump -u %s %s %s --ignore-table=homesite.django_session > "%s"' % (
                     dbs.get('USER', 'root'),
@@ -94,9 +94,23 @@ class Controller():
         if dump_cmd:
             if not os.path.exists(self.DUMPS_DIR):
                 os.makedirs(self.DUMPS_DIR)
+            os.chmod(self.DUMPS_DIR, 0o700)
             rc = _exec(dump_cmd)
             if rc != 0:
                 sys.exit(rc)
+            # Remove old dumps
+            log('Searching for old database dump to remove...')
+            dumps = list()
+            for name in os.listdir(self.DUMPS_DIR):
+                if name.endswith('.sql') or name.endswith('.db'):
+                    path = os.path.join(self.DUMPS_DIR, name)
+                    dumps.append((os.path.getmtime(path), path))
+            if dumps:
+                dumps.sort()
+                while len(dumps) >= self.MAX_DUMPS:
+                    path = dumps.pop(0)[1]
+                    log('Removing old database dump "%s".' % path)
+                    os.remove(path)
         else:
             log('No database configured, dump command ignored.')
 
@@ -113,8 +127,8 @@ class Controller():
 
     def start(self):
         log_info('---- Starting server ----')
-        if not os.path.exists(self.TEMP_DIR):
-            os.makedirs(self.TEMP_DIR)
+        if not os.path.exists(self.TMP_DIR):
+            os.makedirs(self.TMP_DIR)
         if 'UWSGI_ORIGINAL_PROC_NAME' in os.environ:
             del os.environ['UWSGI_ORIGINAL_PROC_NAME']
         if 'UWSGI_RELOADS' in os.environ:
@@ -181,8 +195,8 @@ class Controller():
                 password=user.password,
             )
             settings.AUTHENTICATION_USERS[username] = user_dict
-            if os.path.exists(settings.SETTINGS_OVERRIDE_PATH):
-                with open(settings.SETTINGS_OVERRIDE_PATH, 'r') as fo:
+            if os.path.exists(settings.OVERRIDE_PATH):
+                with open(settings.OVERRIDE_PATH, 'r') as fo:
                     content = fo.read()
             else:
                 content = ''
@@ -194,8 +208,8 @@ class Controller():
             if 'AUTHENTICATION_USERS' not in new_content:
                 new_content += users_repr + '\n'
             if content != new_content:
-                sys.stdout.writelines(difflib.unified_diff(content.splitlines(keepends=True), new_content.splitlines(keepends=True), fromfile='current settings "%s"' % settings.SETTINGS_OVERRIDE_PATH, tofile='new settings'))
-                with open(settings.SETTINGS_OVERRIDE_PATH, 'w') as fo:
+                sys.stdout.writelines(difflib.unified_diff(content.splitlines(keepends=True), new_content.splitlines(keepends=True), fromfile='current settings "%s"' % settings.OVERRIDE_PATH, tofile='new settings'))
+                with open(settings.OVERRIDE_PATH, 'w') as fo:
                     fo.write(new_content)
                 log('User account saved.')
             else:

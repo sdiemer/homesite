@@ -1,9 +1,7 @@
 {% extends "base.html" %}{% load i18n %}{% load static %}
 
 {% block head %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/table.css' %}?_=1"/>
-
-	<script type="text/javascript" src="{% static 'js/clock.js' %}?_=1"></script>
+	<script type="text/javascript" src="{% static 'homesite/js/clock.js' %}?_=1"></script>
 	<script type="text/javascript"> var clock = new Clock(); </script>
 
 	{% block scripts %}{% endblock %}
@@ -42,9 +40,9 @@
 		</div>
 		{% if user.is_authenticated %}
 			<div class="menu">
-				<a href="{% url 'ark' %}" {% if section == "ark" %}class="active"{% endif %}>
-					<i class="fa fa-gamepad"></i>
-					{% trans "ARK server" %}
+				<a href="{% url 'munin' %}" {% if section == "munin" %}class="active"{% endif %}>
+					<i class="fa fa-bar-chart"></i>
+					{% trans "Munin" %}
 				</a>
 				{% if user.is_staff %}
 					<a href="/storage/public-ui/">
@@ -60,20 +58,10 @@
 					<i class="fa fa-info-circle"></i>
 					{% trans "Server info" %}
 				</a>
-				<a href="{% url 'munin' %}" {% if section == "munin" %}class="active"{% endif %}>
-					<i class="fa fa-bar-chart"></i>
-					{% trans "Munin" %}
-				</a>
 				{% if user.is_superuser %}
 					<a href="{% url 'monitoring-panel' %}" {% if section == "monitoring" %}class="active"{% endif %}>
 						<i class="fa fa-cogs"></i>
 						{% trans "Logs and daemons" %}
-					</a>
-				{% endif %}
-				{% if user.is_staff %}
-					<a href="/django/">
-						<i class="fa fa-wrench"></i>
-						{% trans "Django administration" %}
 					</a>
 				{% endif %}
 			</div>

@@ -12,9 +12,12 @@ locale.setlocale(locale.LC_ALL, 'C.UTF-8')
 BASE_DIR = os.path.dirname(os.path.realpath(os.path.expanduser(__file__)))
 if os.path.dirname(BASE_DIR) not in sys.path:
     sys.path.append(os.path.dirname(BASE_DIR))
-TMP_DIR = os.path.join(BASE_DIR, 'temp')
+TMP_DIR = os.path.join(BASE_DIR, 'data', 'temp')
 if not os.path.exists(TMP_DIR):
     os.makedirs(TMP_DIR)
+LOGS_DIR = os.path.join(BASE_DIR, 'data', 'logs')
+if not os.path.exists(LOGS_DIR):
+    os.makedirs(LOGS_DIR)
 FILE_UPLOAD_TEMP_DIR = TMP_DIR
 FILE_UPLOAD_PERMISSIONS = 0o644
 
@@ -60,7 +63,7 @@ USE_TZ = False
 
 # Absolute path to the directory that holds media.
 # Example: '/home/media/media.lawrence.com/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'data', 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -78,7 +81,7 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 # Additional locations of static files
-STATIC_DIR = os.path.join(BASE_DIR, 'served', 'static')  # this var is not used by Django
+STATIC_DIR = os.path.join(BASE_DIR, 'data', 'static')  # this var is not used by Django
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -175,7 +178,7 @@ LOGGING = {
         'django_log_file': {
             'class': 'logging.FileHandler',
             'formatter': 'verbose',
-            'filename': os.path.join(TMP_DIR, 'django.log'),
+            'filename': os.path.join(LOGS_DIR, 'django.log'),
         },
     },
     'loggers': {
@@ -210,10 +213,10 @@ AUTHENTICATION_USERS = {
 }
 
 # File browser config
-FB_PUBLIC_ROOT = os.path.join(BASE_DIR, 'served', 'public')
+FB_PUBLIC_ROOT = os.path.join(BASE_DIR, 'data', 'public')
 if not os.path.exists(FB_PUBLIC_ROOT):
     os.makedirs(FB_PUBLIC_ROOT)
-FB_PRIVATE_ROOT = os.path.join(BASE_DIR, 'served', 'private')
+FB_PRIVATE_ROOT = os.path.join(BASE_DIR, 'data', 'private')
 if not os.path.exists(FB_PRIVATE_ROOT):
     os.makedirs(FB_PRIVATE_ROOT)
 FILE_BROWSER_BASE_TEMPLATE = 'base/storage.html'
@@ -241,34 +244,42 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 25
 
-# Import instance settings
-# -------------------------------------------------------------------------------
-SETTINGS_OVERRIDE_PATH = os.path.join(BASE_DIR, 'settings_override.py')
-if os.path.exists(SETTINGS_OVERRIDE_PATH):
-    override = imp.load_source('settings_override', SETTINGS_OVERRIDE_PATH)
+# Import local settings
+# ---------------------
+OVERRIDE_PATH = os.path.join(BASE_DIR, 'data', 'settings_override.py')
+if os.path.exists(OVERRIDE_PATH):
+    override = imp.load_source('settings_override', OVERRIDE_PATH)
     for key in dir(override):
         if not key.startswith('_'):
             globals()[key] = getattr(override, key)
 
-# Apply changes depending on instance config
-# -------------------------------------------------------------------------------
+# Apply changes depending on local settings
+# -----------------------------------------
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+if DEBUG_TOOLBAR:
+    DEBUG = True
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+    if 'INTERNAL_IPS' not in globals():
+        INTERNAL_IPS = '127.0.0.1'
+elif os.environ.get('DEBUG'):
+    DEBUG = os.environ['DEBUG'] == 'on'
 if DEBUG:
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
     TEMPLATES[0]['OPTIONS']['debug'] = True
     TEMPLATES[0]['OPTIONS']['string_if_invalid'] = 'Invalid template string: "%s"'
     LOGGING['root']['level'] = 'DEBUG'
     LOGGING['root']['handlers'] = ['console']
+    del LOGGING['loggers']['django.request']['handlers']
     import warnings
-    warnings.simplefilter('always', DeprecationWarning)
+    warnings.simplefilter('always')
+    warnings.simplefilter('ignore', ResourceWarning)  # Hide unclosed files warnings
+    os.environ['PYTHONWARNINGS'] = 'always'  # Also affect subprocesses
 else:
     import logging
     logging.captureWarnings(False)
-# Debug toolbar
-if DEBUG_TOOLBAR:
-    INSTALLED_APPS.append('debug_toolbar')
-    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
-    DEBUG_TOOLBAR_CONFIG = {'JQUERY_URL': '/static/jquery/jquery-latest.min.js'}
-    if 'INTERNAL_IPS' not in globals():
-        INTERNAL_IPS = '127.0.0.1'
 
 # Disable logging config for daemons
 if os.environ.get('DJANGO_LOGGING') == 'none':
