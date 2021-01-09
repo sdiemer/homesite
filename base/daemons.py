@@ -20,6 +20,11 @@ DAEMONS = [
         log_path=os.path.join(settings.LOGS_DIR, 'django.log'),
         help_text=_('This is not a daemon, but only a log file.')
     ),
+    dict(
+        group='base', name='uwsgi', label='UWSGI', no_commands=True, only_log=True,
+        log_path=os.path.join(settings.LOGS_DIR, 'uwsgi.log'),
+        help_text=_('This is not a daemon, but only a log file.')
+    ),
 ]
 GROUPS = [
     dict(name='base', label=_('Base daemons')),
