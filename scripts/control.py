@@ -30,8 +30,6 @@ class Controller():
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.realpath(os.path.expanduser(__file__))))
     TMP_DIR = '%s/data/temp' % BASE_DIR
     DUMPS_DIR = '%s/data/dbdumps' % BASE_DIR
-    LOG_PATH = '%s/data/logs/startup.log' % BASE_DIR
-    UWSGI_PID = '%s/uwsgi.pid' % TMP_DIR
     USWGI_INI = '%s/scripts/uwsgi.ini' % BASE_DIR
     MAX_DUMPS = 10
 
