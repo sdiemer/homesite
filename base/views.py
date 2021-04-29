@@ -20,7 +20,7 @@ logger = logging.getLogger('homesite.base.views')
 
 
 def get_ip(request):
-    return HttpResponse(request.META.get('REMOTE_ADDR', '0.0.0.0'), content_type='text/plain')
+    return HttpResponse(request.META.get('REMOTE_ADDR', '0.0.0.0'), content_type='text/plain; charset=utf-8')
 
 
 @login_required
@@ -75,7 +75,7 @@ img, h1 .logo { filter: invert(100%); }
                     fo.write(content)
                 os.utime(local_css, times=(mtime, mtime))
                 logger.debug('Regenerated Munin style CSS.')
-            response = FileResponse(open(local_css, 'rb'), content_type='text/css')
+            response = FileResponse(open(local_css, 'rb'), content_type='text/css; charset=utf-8')
             response['Last-Modified'] = http_date(mtime)
             return response
     elif path == 'static/dynazoom.html':
@@ -86,7 +86,7 @@ img, h1 .logo { filter: invert(100%); }
         with open(path, 'r') as fo:
             content = fo.read()
         content = content.replace('<head>', '<head>\n<link rel="stylesheet" href="style-new.css" type="text/css" />')
-        response = HttpResponse(content, content_type='text/html')
+        response = HttpResponse(content, content_type='text/html; charset=utf-8')
         response['Last-Modified'] = http_date(os.path.getmtime(path))
         return response
     return serve(request, path, document_root=settings.MUNIN_DIR, show_indexes=False)
@@ -113,16 +113,16 @@ def munin_cgi(request, path):
     if p.returncode != 0:
         msg = 'Munin CGI script returned code %s.\n%s' % (p.returncode, err)
         logger.error(msg)
-        return HttpResponse(msg, content_type='text/plain', status=400)
+        return HttpResponse(msg, content_type='text/plain; charset=utf-8', status=400)
     # Remove header
     if b'PNG' in out:
         index = out.index(b'PNG')
         lines = out[:index].count(b'\n')
         out = b'\n'.join(out.split(b'\n')[lines:])
-        return HttpResponse(out, content_type='image/png')
+        return HttpResponse(out, content_type='image/png; charset=utf-8')
     elif b'Status: 404 Not Found' in out:
         raise Http404()
     else:
         msg = 'Munin CGI script returned an unhandled response.'
         logger.error(msg + '\n' + out.decode('utf-8', 'ignore')[:200])
-        return HttpResponse(msg, content_type='text/plain', status=400)
+        return HttpResponse(msg, content_type='text/plain; charset=utf-8', status=400)
