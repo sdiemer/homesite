@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import imp
+import importlib.util
 import locale
 import os
 import sys
@@ -248,10 +248,11 @@ EMAIL_PORT = 25
 # ---------------------
 OVERRIDE_PATH = os.path.join(BASE_DIR, 'data', 'settings_override.py')
 if os.path.exists(OVERRIDE_PATH):
-    override = imp.load_source('settings_override', OVERRIDE_PATH)
-    for key in dir(override):
-        if not key.startswith('_'):
-            globals()[key] = getattr(override, key)
+    spec = importlib.util.spec_from_file_location('settings_override', OVERRIDE_PATH)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    sys.modules['settings_override'] = mod
+    from settings_override import *  # NOQA: F401,F403
 
 # Apply changes depending on local settings
 # -----------------------------------------
