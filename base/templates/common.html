@@ -59,7 +59,7 @@
 					{% trans "Server info" %}
 				</a>
 				{% if user.is_superuser %}
-					<a href="{% url 'monitoring-panel' %}" {% if section == "monitoring" %}class="active"{% endif %}>
+					<a href="{% url 'monitoring:monitoring-panel' %}" {% if section == "monitoring" %}class="active"{% endif %}>
 						<i class="fa fa-cogs"></i>
 						{% trans "Logs and daemons" %}
 					</a>

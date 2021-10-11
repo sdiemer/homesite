@@ -23,7 +23,7 @@ urlpatterns = [
     re_path(r'^storage/private-ui/', include(('django_web_utils.file_browser.urls', 'fb-private'), namespace='fb-private'), {'namespace': 'fb-private'}),
     re_path(r'^storage/private/(?P<path>.*)$', protected_serve, {'document_root': settings.FB_PRIVATE_ROOT, 'show_indexes': settings.DEBUG}),
     # Daemons monitoring
-    re_path(r'^daemons/', include('django_web_utils.monitoring.urls')),
+    re_path(r'^daemons/', include(('django_web_utils.monitoring.urls', 'monitoring'), namespace='monitoring')),
     # munin
     re_path(r'^$', views.munin, name='munin'),
     re_path(r'^munin-src/(?P<path>.*)$', views.munin_file, name='munin_file'),
