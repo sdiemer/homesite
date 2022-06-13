@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from pathlib import Path
 import importlib.util
 import locale
 import os
@@ -9,15 +10,13 @@ os.environ['LANG'] = 'C.UTF-8'
 os.environ['LC_ALL'] = 'C.UTF-8'
 locale.setlocale(locale.LC_ALL, 'C.UTF-8')
 
-BASE_DIR = os.path.dirname(os.path.realpath(os.path.expanduser(__file__)))
-if os.path.dirname(BASE_DIR) not in sys.path:
-    sys.path.append(os.path.dirname(BASE_DIR))
-TMP_DIR = os.path.join(BASE_DIR, 'data', 'temp')
-if not os.path.exists(TMP_DIR):
-    os.makedirs(TMP_DIR)
-LOGS_DIR = os.path.join(BASE_DIR, 'data', 'logs')
-if not os.path.exists(LOGS_DIR):
-    os.makedirs(LOGS_DIR)
+DATA_DIR = Path('~/homesite-data').expanduser()
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+PRIVATE_DIR = DATA_DIR / 'private'
+PRIVATE_DIR.mkdir(exist_ok=True)
+TMP_DIR = DATA_DIR / 'temp'
+TMP_DIR.mkdir(exist_ok=True)
+
 FILE_UPLOAD_TEMP_DIR = TMP_DIR
 FILE_UPLOAD_PERMISSIONS = 0o644
 
@@ -31,7 +30,7 @@ MANAGERS = ADMINS
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
-ALLOWED_HOSTS = '*'
+ALLOWED_HOSTS = ['*']
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # Local time zone for this installation. Choices can be found here:
@@ -54,16 +53,12 @@ LANGUAGES = (
 # to load the internationalization machinery.
 USE_I18N = False
 
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale.
-USE_L10N = False
-
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = False
 
 # Absolute path to the directory that holds media.
 # Example: '/home/media/media.lawrence.com/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'data', 'media')
+MEDIA_ROOT = DATA_DIR / 'media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -81,7 +76,7 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 # Additional locations of static files
-STATIC_DIR = os.path.join(BASE_DIR, 'data', 'static')  # this var is not used by Django
+STATIC_DIR = DATA_DIR / 'static'  # this var is not used by Django
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -178,7 +173,7 @@ LOGGING = {
         'django_log_file': {
             'class': 'logging.FileHandler',
             'formatter': 'verbose',
-            'filename': os.path.join(LOGS_DIR, 'django.log'),
+            'filename': TMP_DIR / 'django.log',
         },
     },
     'loggers': {
@@ -213,16 +208,14 @@ AUTHENTICATION_USERS = {
 }
 
 # File browser config
-FB_PUBLIC_ROOT = os.path.join(BASE_DIR, 'data', 'public')
-if not os.path.exists(FB_PUBLIC_ROOT):
-    os.makedirs(FB_PUBLIC_ROOT)
-FB_PRIVATE_ROOT = os.path.join(BASE_DIR, 'data', 'private')
-if not os.path.exists(FB_PRIVATE_ROOT):
-    os.makedirs(FB_PRIVATE_ROOT)
+FB_PUBLIC_ROOT = DATA_DIR / 'public'
+FB_PUBLIC_ROOT.mkdir(exist_ok=True)
+FB_PROTECTED_ROOT = DATA_DIR / 'protected'
+FB_PROTECTED_ROOT.mkdir(exist_ok=True)
 FILE_BROWSER_BASE_TEMPLATE = 'base/storage.html'
 FILE_BROWSER_DIRS = {
     'fb-public': (FB_PUBLIC_ROOT, '/storage/public/'),
-    'fb-private': (FB_PRIVATE_ROOT, '/storage/private/'),
+    'fb-protected': (FB_PROTECTED_ROOT, '/storage/protected/'),
 }
 
 # Munin
@@ -246,8 +239,8 @@ EMAIL_PORT = 25
 
 # Import local settings
 # ---------------------
-OVERRIDE_PATH = os.path.join(BASE_DIR, 'data', 'settings_override.py')
-if os.path.exists(OVERRIDE_PATH):
+OVERRIDE_PATH = PRIVATE_DIR / 'settings_override.py'
+if OVERRIDE_PATH.exists():
     spec = importlib.util.spec_from_file_location('settings_override', OVERRIDE_PATH)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)

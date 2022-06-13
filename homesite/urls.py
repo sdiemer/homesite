@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Django
 from django.conf import settings
-from django.conf.urls import include, re_path
+from django.urls import include, re_path
 from django.views.generic import TemplateView
 from django.views.static import serve
 
@@ -10,8 +10,6 @@ from django.views.static import serve
 urlpatterns = [
     # Authentication
     re_path(r'^', include('django.contrib.auth.urls')),
-    # I18N
-    re_path(r'^i18n/', include('django.conf.urls.i18n'), name='i18n'),
     # Base app
     re_path(r'^', include('homesite.base.urls')),
     # media serving

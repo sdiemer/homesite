@@ -1,6 +1,3 @@
-[submodule "submodules/overlay-display-manager"]
-	path = submodules/overlay-display-manager
-	url = https://github.com/UbiCastTeam/overlay-display-manager
-[submodule "submodules/jsu"]
-	path = submodules/jsu
-	url = https://github.com/UbiCastTeam/jsu
+[submodule "submodules/django-web-utils"]
+	path = submodules/django-web-utils
+	url = https://github.com/UbiCastTeam/django-web-utils.git

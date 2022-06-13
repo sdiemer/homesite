@@ -3,7 +3,7 @@
 import logging
 import os
 import subprocess
-# Django
+
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, FileResponse, Http404
@@ -11,9 +11,9 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.http import http_date
 from django.views.static import serve
-# Django web utils
+
 from django_web_utils.monitoring import sysinfo
-# homesite
+
 import homesite
 
 logger = logging.getLogger('homesite.base.views')
@@ -48,7 +48,7 @@ def munin_file(request, path):
     if not path:
         path = 'index.html'
     if path.endswith('static/style-new.css'):
-        # patch CSS for black theme
+        # Patch CSS for black theme
         munin_css = os.path.join(settings.MUNIN_DIR, 'static/style-new.css')
         if os.path.exists(munin_css):
             if not os.path.exists(settings.MEDIA_ROOT):
@@ -79,7 +79,7 @@ img, h1 .logo { filter: invert(100%); }
             response['Last-Modified'] = http_date(mtime)
             return response
     elif path == 'static/dynazoom.html':
-        # add missing CSS in dynazoom.html
+        # Add missing CSS in dynazoom.html
         path = os.path.join(settings.MUNIN_DIR, 'static/dynazoom.html')
         if not os.path.exists(path):
             raise Http404()
