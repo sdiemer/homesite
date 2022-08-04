@@ -6,6 +6,7 @@ import subprocess
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, FileResponse, Http404
 from django.shortcuts import render
 from django.urls import reverse
@@ -21,6 +22,25 @@ logger = logging.getLogger('homesite.base.views')
 
 def get_ip(request):
     return HttpResponse(request.META.get('REMOTE_ADDR', '0.0.0.0'), content_type='text/plain; charset=utf-8')
+
+
+def serve_path(request, root_dir, path, login_required=True):
+    if login_required and not request.user.is_authenticated:
+        raise PermissionDenied()
+    if '..' in path:
+        raise Http404()
+    file_path = root_dir / path
+    if not settings.DEBUG:
+        # Use Nginx X-Accel feature:
+        # https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/
+        response = HttpResponse()
+        response['Content-Type'] = ''  # Let Nginx guess the content type
+        response['Content-Disposition'] = f'attachment; filename={file_path.name}'
+        response['X-Accel-Redirect'] = f'/{root_dir.name}-internal/{path}'
+        return response
+    if not file_path.is_file():
+        raise Http404()
+    return FileResponse(open(file_path, 'rb'))
 
 
 @login_required

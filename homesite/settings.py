@@ -214,8 +214,8 @@ FB_PROTECTED_ROOT = DATA_DIR / 'protected'
 FB_PROTECTED_ROOT.mkdir(exist_ok=True)
 FILE_BROWSER_BASE_TEMPLATE = 'base/storage.html'
 FILE_BROWSER_DIRS = {
-    'fb-public': (FB_PUBLIC_ROOT, '/storage/public/'),
-    'fb-protected': (FB_PROTECTED_ROOT, '/storage/protected/'),
+    'fb-public': (FB_PUBLIC_ROOT, '/public/'),
+    'fb-protected': (FB_PROTECTED_ROOT, '/protected/'),
 }
 
 # Munin

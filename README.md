@@ -8,6 +8,7 @@ Simple web site for my home server.
 * python3-django
 * python3-django-web-utils
 * python3-pil
+* python3-tinycss2
 * munin
 * munin-node
 * [libcgi-fast-perl]
