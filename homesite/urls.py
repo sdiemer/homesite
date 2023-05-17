@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# Django
 from django.conf import settings
 from django.urls import include, re_path
 from django.views.generic import TemplateView

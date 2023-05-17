@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 import logging
 import os
 import subprocess
@@ -12,7 +10,6 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.http import http_date
 from django.views.static import serve
-
 from django_web_utils.monitoring import sysinfo
 
 import homesite
@@ -128,7 +125,10 @@ def munin_cgi(request, path):
     query_string = full_path.split('?')[1].strip('&')
     # Run CGI script
     # http://www.ietf.org/rfc/rfc3875
-    p = subprocess.Popen(cmd, env=dict(LANG='C', PATH_INFO=path_info, QUERY_STRING=query_string, REQUEST_METHOD='GET'), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
+    p = subprocess.Popen(
+        cmd,
+        env=dict(LANG='C', PATH_INFO=path_info, QUERY_STRING=query_string, REQUEST_METHOD='GET'),
+        stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
     out, err = p.communicate()
     if p.returncode != 0:
         msg = 'Munin CGI script returned code %s.\n%s' % (p.returncode, err)

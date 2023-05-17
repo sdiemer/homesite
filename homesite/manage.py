@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-from pathlib import Path
 import os
 import sys
+from pathlib import Path
 
 if __name__ == '__main__':
     sys.path.pop(0)

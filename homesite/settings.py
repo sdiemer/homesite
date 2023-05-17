@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-from pathlib import Path
 import importlib.util
 import locale
 import os
 import sys
+from pathlib import Path
 
 os.environ['LANG'] = 'C.UTF-8'
 os.environ['LC_ALL'] = 'C.UTF-8'
