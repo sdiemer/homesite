@@ -258,8 +258,6 @@ if DEBUG_TOOLBAR:
 elif os.environ.get('DEBUG'):
     DEBUG = os.environ['DEBUG'] == 'on'
 if DEBUG:
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
     TEMPLATES[0]['OPTIONS']['debug'] = True
     TEMPLATES[0]['OPTIONS']['string_if_invalid'] = 'Invalid template string: "%s"'
     LOGGING['root']['level'] = 'DEBUG'
