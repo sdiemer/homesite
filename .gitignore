@@ -1,29 +1,18 @@
-*.py[cod]
-
-# C extensions
-*.so
+__pycache__/
+*.pyc
 
 # Packages
 *.egg
 *.egg-info
-dist
-build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
-.installed.cfg
-__pycache__
-
-# Installer logs
-pip-log.txt
 
 # Unit test / coverage reports
-.coverage
-.tox
-nosetests.xml
+.coverage*
+coverage*
+htmlcov
+report.xml
+.mypy_cache
+.pytest_cache
 
-# Website project
+# Local run data
 data
+*.tmp.*

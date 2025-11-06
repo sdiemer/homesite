@@ -8,11 +8,11 @@ os.environ['LANG'] = 'C.UTF-8'
 os.environ['LC_ALL'] = 'C.UTF-8'
 locale.setlocale(locale.LC_ALL, 'C.UTF-8')
 
-DATA_DIR = Path('~/homesite-data').expanduser()
+DATA_DIR = Path('/opt/homesite/data')
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 PRIVATE_DIR = DATA_DIR / 'private'
 PRIVATE_DIR.mkdir(exist_ok=True)
-TMP_DIR = DATA_DIR / 'temp'
+TMP_DIR = DATA_DIR / 'tmp'
 TMP_DIR.mkdir(exist_ok=True)
 
 FILE_UPLOAD_TEMP_DIR = TMP_DIR
@@ -74,7 +74,7 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 # Additional locations of static files
-STATIC_DIR = DATA_DIR / 'static'  # this var is not used by Django
+STATIC_DIR = Path('/opt/homesite/repo/deployment/static')  # this var is not used by Django
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -196,13 +196,14 @@ SESSION_COOKIE_SECURE = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 SESSION_FILE_PATH = TMP_DIR
 CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_AGE = None
 
 # Auth config
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 AUTHENTICATION_USERS = {
-    # 'admin': {'is_active': True, 'is_staff': False, 'is_superuser': False, 'password': 'pbkdf2_sha256$30000$Vo0VlMnkR4Bk$qEvtdyZRWTcOsCnI/oQ7fVOu1XAURIZYoOZ3iq8Dr4M='}
+    # 'admin': {'is_active': True, 'is_staff': False, 'is_superuser': False, 'password': 'pbkdf2_sha256$...'}
 }
 
 # File browser config

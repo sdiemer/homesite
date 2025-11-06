@@ -1,0 +1,45 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=77.0"]
+
+[project]
+name = "homesite"
+description = "Simple web site for my home server."
+version = "2.0"
+authors = [{name = "Stéphane Diemer"}]
+license = "LGPL-3.0-only"
+license-files = ["LICENSE"]
+readme = "README.md"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Internet :: WWW/HTTP",
+]
+requires-python = ">=3.11"
+dependencies = [
+  "django >= 5.2, < 5.3",
+  "django-debug-toolbar >= 5.2, < 5.3",
+  "django-web-utils @ git+https://github.com/UbiCastTeam/django-web-utils.git",
+]
+
+[project.optional-dependencies]
+dev = [
+  "flake8",
+  "mypy",
+  "vulture",
+]
+
+[project.scripts]
+homesite-control = "homesite.scripts.control:main"
+django-manage = "homesite.scripts.manage:main"
+
+[project.urls]
+Repository = "https://github.com/sdiemer/homesite"
+
+[tool.setuptools]
+packages = ["homesite"]
+include-package-data = false

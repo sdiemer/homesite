@@ -1,3 +1,0 @@
-[submodule "submodules/django-web-utils"]
-	path = submodules/django-web-utils
-	url = https://github.com/UbiCastTeam/django-web-utils.git

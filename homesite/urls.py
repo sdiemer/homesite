@@ -10,7 +10,12 @@ urlpatterns = [
     # Base app
     re_path(r'^', include('homesite.base.urls')),
     # media serving
-    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, 'show_indexes': settings.DEBUG}, name='media'),
+    re_path(
+        r'^media/(?P<path>.*)$',
+        serve,
+        {'document_root': settings.MEDIA_ROOT, 'show_indexes': settings.DEBUG},
+        name='media'
+    ),
 ]
 
 # test pages

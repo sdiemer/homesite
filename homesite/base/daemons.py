@@ -14,12 +14,12 @@ DAEMONS = [
     dict(
         group='base', name='django', label='Django', no_commands=True, only_log=True,
         log_path=settings.TMP_DIR / 'django.log',
-        help_text=_('This is not a daemon, but only a log file.')
+        help_text=_('The main log file of the application.')
     ),
     dict(
         group='base', name='uwsgi', label='UWSGI', no_commands=True, only_log=True,
         log_path=settings.TMP_DIR / 'uwsgi.log',
-        help_text=_('This is not a daemon, but only a log file.')
+        help_text=_('This daemon handles all basic requests.')
     ),
 ]
 GROUPS = [

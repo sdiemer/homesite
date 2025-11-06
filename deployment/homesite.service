@@ -1,0 +1,14 @@
+[Unit]
+Description=Homesite main service
+After=network-online.target
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/environment
+ExecStart=/opt/homesite/venv/bin/homesite-control start
+ExecStop=/opt/homesite/venv/bin/homesite-control stop
+ExecReload=/opt/homesite/venv/bin/homesite-control reload
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
